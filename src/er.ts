@@ -7,7 +7,7 @@ import { custom, registerCustomEndpoint, getCustomEndpoints } from "./custom";
 import { setApiKey, setBaseUrl, getBaseUrl } from "./config";
 
 export * from './types';
-export default er;
+export default ErApiSdk;
 
 export const {
   setApiKey,
@@ -32,7 +32,7 @@ export const {
   ttdl,
   xnxx,
   spotify
-} = er;
+} = ErApiSdk;
 
 export { ai, img, games, dl, primbon };
 export { custom } from './custom';
