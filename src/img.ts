@@ -1,3 +1,6 @@
+import axios from "axios";
+import { baseUrl } from "./config";
+
 /**
  * Fetches an image from the API based on the given endpoint and text prompt
  * @param endpoint - API endpoint (e.g., 'brat', 'generate', 'text2img')
@@ -5,7 +8,7 @@
  * @returns Promise resolving to image Buffer
  * @throws Will throw error if request fails
  */
-async function fetchImage(endpoint: string, prompt: string): Promise < Buffer > {
+async function fetchImage(endpoint: string, prompt: string): Promise<Buffer> {
   if (!prompt || typeof prompt !== 'string') {
     throw new Error('Prompt must be a non-empty string');
   }
@@ -24,7 +27,7 @@ async function fetchImage(endpoint: string, prompt: string): Promise < Buffer > 
  * @param prompt - Text prompt for the image
  * @returns Promise resolving to image Buffer
  */
-export async function brat(prompt: string): Promise < Buffer > {
+export async function brat(prompt: string): Promise<Buffer> {
   return fetchImage('brat', prompt);
 }
 
@@ -33,7 +36,7 @@ export async function brat(prompt: string): Promise < Buffer > {
  * @param prompt - Text prompt for image generation
  * @returns Promise resolving to image Buffer
  */
-export async function generate(prompt: string): Promise < Buffer > {
+export async function generate(prompt: string): Promise<Buffer> {
   return fetchImage('generate', prompt);
 }
 
@@ -42,6 +45,6 @@ export async function generate(prompt: string): Promise < Buffer > {
  * @param prompt - Text prompt for image generation
  * @returns Promise resolving to image Buffer
  */
-export async function text2img(prompt: string): Promise < Buffer > {
+export async function text2img(prompt: string): Promise<Buffer> {
   return fetchImage('text2img', prompt);
 }

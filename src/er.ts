@@ -6,34 +6,33 @@ import * as primbon from "./primbon";
 import { custom, registerCustomEndpoint, getCustomEndpoints } from "./custom";
 import { setApiKey, setBaseUrl, getBaseUrl } from "./config";
 
-// Main er object
-export const er = {
-  // Main API categories
-  ai,
-  img,
-  games,
-  dl,
-  primbon,
-  
-  // Custom endpoints
-  custom,
-  
-  // Configuration methods
+export * from './types';
+export default er;
+
+export const {
   setApiKey,
-  getBaseUrl,
   setBaseUrl,
+  getBaseUrl,
   registerCustomEndpoint,
   getCustomEndpoints,
-  
-  // Shortcut methods for popular functions
-  deepseek: ai.deepseek,
-  openai: ai.openai,
-  cohere: ai.cohere,
-  anthropic: ai.anthropic,
-  gemini: ai.gemini,
-  brat: img.brat,
-  generate: img.generate,
-  tex2img: img.text2img,
-  ermp3: dl.ermp3,
-  ermp4: dl.ermp4,
-};
+  deepseek,
+  openai,
+  cohere,
+  anthropic,
+  gemini,
+  groq,
+  mistral,
+  together,
+  nlpc,
+  huggingface,
+  perplexity,
+  brat,
+  generate,
+  tex2img,
+  ttdl,
+  xnxx,
+  spotify
+} = er;
+
+export { ai, img, games, dl, primbon };
+export { custom } from './custom';

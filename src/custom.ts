@@ -1,7 +1,7 @@
 import axios from "axios";
-import { baseUrl } from "./config";
+import { baseUrl, getBaseUrl } from "./config";
 
-type CustomEndpointMap = Record<string, string>;
+type CustomEndpointMap = Record < string, string > ;
 
 // Load custom endpoints from environment variables
 const loadCustomEndpoints = (): CustomEndpointMap => {
@@ -30,7 +30,9 @@ const customEndpoints = loadCustomEndpoints();
  * @param path - Path to the endpoint (relative to baseUrl)
  */
 export function registerCustomEndpoint(name: string, path: string): void {
-  customEndpoints[name.toLowerCase()] = path;
+  // Ensure the path starts with a forward slash
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  customEndpoints[name.toLowerCase()] = normalizedPath;
 }
 
 /**
@@ -56,25 +58,31 @@ export function getCustomEndpoints(): CustomEndpointMap {
  * @param params - Object with query parameters
  * @returns Response data
  */
-export async function callCustomEndpoint(name: string, params?: Record<string, any>): Promise<any> {
+export async function callCustomEndpoint(name: string, params ? : Record < string, any > ): Promise < any > {
   const endpointName = name.toLowerCase();
   if (!customEndpoints[endpointName]) {
     throw new Error(`Custom endpoint "${name}" not found. Register it first with registerCustomEndpoint()`);
   }
   
-  let url = `${baseUrl}${customEndpoints[endpointName]}`;
+  // Always get the current baseUrl in case it was changed
+  const currentBaseUrl = getBaseUrl();
+  const endpointPath = customEndpoints[endpointName];
+  
+  // Ensure we don't double-slash when joining paths
+  const url = new URL(
+    endpointPath.startsWith('/') ? endpointPath : `/${endpointPath}`,
+    currentBaseUrl.endsWith('/') ? currentBaseUrl : `${currentBaseUrl}/`
+  ).toString();
   
   // Add query parameters if provided
-  if (params && Object.keys(params).length > 0) {
-    const queryParams = new URLSearchParams();
-    Object.entries(params).forEach(([key, value]) => {
-      queryParams.append(key, String(value));
-    });
-    url += `?${queryParams.toString()}`;
-  }
+  const finalUrl = params && Object.keys(params).length > 0 ?
+    `${url}${url.includes('?') ? '&' : '?'}${new URLSearchParams(
+        Object.entries(params).map(([key, value]) => [key, String(value)])
+      ).toString()}` :
+    url;
   
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(finalUrl);
     return response.data;
   } catch (error) {
     console.error(`Error calling custom endpoint "${name}":`, error);
@@ -83,11 +91,11 @@ export async function callCustomEndpoint(name: string, params?: Record<string, a
 }
 
 // Dynamic proxy for easier custom endpoint access
-export const custom = new Proxy({} as Record<string, (params?: Record<string, any>) => Promise<any>>, {
+export const custom = new Proxy({} as Record < string, (params ? : Record < string, any > ) => Promise < any >> , {
   get: (target, prop) => {
     if (typeof prop !== 'string') return undefined;
     
-    return (params?: Record<string, any>) => {
+    return (params ? : Record < string, any > ) => {
       return callCustomEndpoint(prop, params);
     };
   }
