@@ -3,8 +3,10 @@ import { baseUrl } from "./config";
 
 /**
  * Helper Fetch to the API endpoints with detailed error handling
+ * @param path - Path to the API endpoint
+ * @returns Response data or error object
  */
-export async function f(path: string): Promise < any > {
+export async function f(path: string): Promise<any> {
   try {
     const res = await axios.get(`${baseUrl}${path}`);
     return res.data;

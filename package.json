@@ -13,16 +13,20 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build": "npm run build:cjs && npm run build:esm",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "docs": "typedoc --out docs src/index.ts",
+    "docs:dev": "typedoc --out docs src/index.ts --watch"
   },
   "keywords": ["er-api", "sdk", "ai", "typescript", "api-client"],
   "author": "ErNewDev0",
-  "license": "MIT",
+  "license": "Unlicense",
   "dependencies": {
     "axios": "^1.6.0",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "@types/node": "^20.8.0",
+    "typedoc": "^0.25.12"
   }
 }

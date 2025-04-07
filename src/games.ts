@@ -2,117 +2,74 @@ import axios from "axios";
 import { baseUrl } from "./config";
 
 /**
- * Helper to fetch plain string data from game endpoints.
+ * Helper to fetch data from game endpoints
  * @param path - Endpoint path under /games
- * @returns String response
+ * @returns Promise resolving to string response
+ * @throws Will throw error if request fails or response is invalid
  */
-async function fetchGame(path: string): Promise<string> {
-  const url = `${baseUrl}${path}`;
-  const res = await axios.get(url);
-  return res.data;
+async function fetchGame(path: string): Promise < string > {
+  if (!path || typeof path !== 'string') {
+    throw new Error('Invalid path: must be a non-empty string');
+  }
+  
+  try {
+    const url = new URL(path, baseUrl).toString();
+    const response = await axios.get(url, {
+      timeout: 10000, // 10 seconds timeout
+      validateStatus: (status) => status === 200
+    });
+    
+    if (typeof response.data !== 'string') {
+      throw new Error('Invalid response type: expected string');
+    }
+    
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch game data from ${path}:`, error);
+    throw new Error(`Game service unavailable: ${error.message}`);
+  }
 }
 
-/**
- * Guess the word challenge.
- */
-export async function tebakkata(): Promise<string> {
-  return fetchGame("/games/tebakkata");
-}
+// Type Games Endpoint
+type GameEndpoint = |
+  'tebakkata' |
+  'tebakkabupaten' |
+  'asahotak' |
+  'tebaklirik' |
+  'caklontong' |
+  'family100' |
+  'siapakahaku' |
+  'susunkata' |
+  'tebakbendera' |
+  'tebakgambar' |
+  'tebakkimia' |
+  'tebaktebakan' |
+  'tekateki' |
+  'truth' |
+  'dare';
 
 /**
- * Guess the regency (kabupaten).
+ * Factory function to create game API functions
  */
-export async function tebakkabupaten(): Promise<string> {
-  return fetchGame("/games/tebakkabupaten");
+function createGameFunction(endpoint: GameEndpoint): () => Promise < string > {
+  return async function(): Promise < string > {
+    return fetchGame(`/games/${endpoint}`);
+  };
 }
 
-/**
- * Solve a brain teaser (asah otak).
- */
-export async function asahotak(): Promise<string> {
-  return fetchGame("/games/asahotak");
-}
-
-/**
- * Guess the lyrics challenge.
- */
-export async function tebaklirik(): Promise<string> {
-  return fetchGame("/games/tebaklirik");
-}
-
-/**
- * Classic Indonesian wordplay: Cak Lontong.
- */
-export async function caklontong(): Promise<string> {
-  return fetchGame("/games/caklontong");
-}
-
-/**
- * Family 100-style guessing game.
- */
-export async function family100(): Promise<string> {
-  return fetchGame("/games/family100");
-}
-
-/**
- * Who am I guessing game.
- */
-export async function siapakahaku(): Promise<string> {
-  return fetchGame("/games/siapakahaku");
-}
-
-/**
- * Unscramble the letters.
- */
-export async function susunkata(): Promise<string> {
-  return fetchGame("/games/susunkata");
-}
-
-/**
- * Guess the country flag.
- */
-export async function tebakbendera(): Promise<string> {
-  return fetchGame("/games/tebakbendera");
-}
-
-/**
- * Visual puzzle guessing game.
- */
-export async function tebakgambar(): Promise<string> {
-  return fetchGame("/games/tebakgambar");
-}
-
-/**
- * Guess the chemical element.
- */
-export async function tebakkimia(): Promise<string> {
-  return fetchGame("/games/tebakkimia");
-}
-
-/**
- * General riddles.
- */
-export async function tebaktebakan(): Promise<string> {
-  return fetchGame("/games/tebaktebakan");
-}
-
-/**
- * Brain teasers and puzzles.
- */
-export async function tekateki(): Promise<string> {
-  return fetchGame("/games/tekateki");
-}
-
-/**
- * Truth question for games.
- */
-export async function truth(): Promise<string> {
-  return fetchGame("/games/truth");
-}
-
-/**
- * Dare challenge for games.
- */
-export async function dare(): Promise<string> {
-  return fetchGame("/games/dare");
-}
+// Export all game functions
+export const tebakkata = createGameFunction('tebakkata');
+export const tebakkabupaten = createGameFunction('tebakkabupaten');
+export const asahotak = createGameFunction('asahotak');
+export const tebaklirik = createGameFunction('tebaklirik');
+export const caklontong = createGameFunction('caklontong');
+export const family100 = createGameFunction('family100');
+export const siapakahaku = createGameFunction('siapakahaku');
+export const susunkata = createGameFunction('susunkata');
+export const tebakbendera = createGameFunction('tebakbendera');
+export const tebakgambar = createGameFunction('tebakgambar');
+export const tebakkimia = createGameFunction('tebakkimia');
+export const tebaktebakan = createGameFunction('tebaktebakan');
+export const tekateki = createGameFunction('tekateki');
+export const truth = createGameFunction('truth');
+export const dare = createGameFunction('dare');
