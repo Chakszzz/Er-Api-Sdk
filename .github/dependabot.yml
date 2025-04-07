@@ -1,0 +1,9 @@
+---
+version: 2
+updates:
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: npm
+    directory: "package.json"
+    schedule:
+      interval: "weekly"

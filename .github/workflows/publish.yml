@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  publish-npm:
+    name: Publish on NPM
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
+
+      - name: Ensure pnpm-lock.yaml exists
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then
+            echo "pnpm-lock.yaml not found, generating..."
+            pnpm install --lockfile-only
+          else
+            echo "pnpm-lock.yaml already exists."
+          fi
+
+      - name: Install Node.js (with cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: pnpm install --ignore-scripts --frozen-lockfile
+
+      - name: Validate package.json
+        run: |
+          if [ ! -f package.json ]; then
+            echo "Error: package.json not found!"
+            exit 1
+          fi
+          cat package.json | jq . > /dev/null || { echo "Error: Invalid JSON in package.json"; exit 1; }
+
+      - name: Get package version
+        id: package_version
+        run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+      - name: Publish package to NPM
+        run: |
+          pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM }}
+          NPM_CONFIG_PROVENANCE: true
