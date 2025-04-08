@@ -22,7 +22,8 @@ async function fetchGame(path: string): Promise<string> {
 
     return response.data;
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Unknown error occurred";
+    const message =
+      err instanceof Error ? err.message : "Unknown error occurred";
     console.error(`Failed to fetch game data from ${path}:`, err);
     throw new Error(`Game service unavailable: ${message}`);
   }
