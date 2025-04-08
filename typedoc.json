@@ -1,12 +1,17 @@
 {
   "entryPoints": ["src/index.ts"],
   "out": "docs",
-  "name": "ER-API SDK Documentation",
-  "includeVersion": true,
   "excludePrivate": true,
+  "excludeProtected": true,
   "excludeExternals": true,
-  "readme": "README.md",
-  "plugin": ["typedoc-plugin-markdown"],
-  "theme": "default",
-  "githubPages": true
+  "includeVersion": true,
+  "readme": "none",
+  "categorizeByGroup": true,
+  "plugin": [
+    "typedoc-plugin-missing-exports",
+    "typedoc-plugin-mdn-links",
+    "typedoc-plugin-metadata"
+  ],
+  "name": "er-api-sdk",
+  "theme": "default"
 }
