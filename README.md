@@ -236,7 +236,7 @@ try {
 
 ## 📖 Documentation
 
-For detailed API documentation, visit our [Docs](https://erbots.github.io/Er-Api-SDK).
+For detailed API documentation, visit our [Docs](https://erbots.github.io/Er-Api-Sdk/).
 
 ## 📄 License
 
