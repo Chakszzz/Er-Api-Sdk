@@ -9,7 +9,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,16 +18,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: latest
-
-      - name: Install TypeDoc & Plugin
-        run: pnpm add -D typedoc@0.25.3 typedoc-plugin-markdown@3.14.0
-
-      - name: Generate Documentation
-        run: pnpm exec typedoc
+      - name: Generate Documentation with TypeDoc
+        run: |
+          pnpm dlx typedoc \
+            --plugin typedoc-plugin-markdown \
+            --theme markdown \
+            --out docs \
+            src/index.ts
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
