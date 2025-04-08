@@ -13,5 +13,5 @@
     "typedoc-github-theme"
   ],
   "name": "Er-Api SDK",
-  "theme": "github"
+  "theme": "typedoc-github-theme"
 }
