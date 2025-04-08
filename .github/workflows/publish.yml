@@ -2,8 +2,6 @@ name: Release
 
 on:
   workflow_dispatch:
-    branches:
-      - main
 
 jobs:
   publish-npm:
@@ -37,9 +35,15 @@ jobs:
           cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies
-        run: pnpm install --ignore-scripts --frozen-lockfile
-
+      - name: Install dependencies (auto fallback if lockfile missing)
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then
+            echo "Generating lockfile and installing..."
+            pnpm install
+          else
+            echo "Using frozen lockfile install..."
+            pnpm install --ignore-scripts --frozen-lockfile
+          fi
       - name: Validate package.json
         run: |
           if [ ! -f package.json ]; then
