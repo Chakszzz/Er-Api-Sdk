@@ -1,16 +1,18 @@
-name: Build and Deploy Documentation
+name: Build TypeDoc Markdown documentation
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -18,16 +20,18 @@ jobs:
         with:
           node-version: 20
 
-      - name: Generate Documentation with TypeDoc
-        run: |
-          pnpm dlx typedoc \
-            --plugin typedoc-plugin-markdown \
-            --theme markdown \
-            --out docs \
-            src/index.ts
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install TypeDoc & markdown plugin
+        run: npm install --save-dev typedoc typedoc-plugin-markdown
+
+      - name: Generate documentation
+        run: npx typedoc
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          folder: docs
-          branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
