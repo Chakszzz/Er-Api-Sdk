@@ -7,6 +7,8 @@
 
 A Powerful TypeScript/JavaScript SDK for accessing [ER-API](https://er-api.biz.id) services, providing easy access to AI models, media downloads, games, and various other utilities.
 
+[![NPM](https://nodei.co/npm/er-api-sdk)](https://npmjs.org/package/er-api-sdk)
+
 ## 📋 Table of Contents
 
 - [Installation](#installation)
