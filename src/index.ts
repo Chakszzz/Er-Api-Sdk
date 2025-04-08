@@ -1,5 +1,8 @@
 export * from "./er";
 
+export { custom, registerCustomEndpoint, getCustomEndpoints } from "./custom";
+export { setApiKey, setBaseUrl, getBaseUrl } from "./config";
+
 export {
   deepseek,
   openai,
