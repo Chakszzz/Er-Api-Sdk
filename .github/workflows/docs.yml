@@ -24,14 +24,11 @@ jobs:
         with:
           version: latest
 
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Install TypeDoc and Plugin
+      - name: Install TypeDoc & Plugin
         run: pnpm add -D typedoc@0.25.3 typedoc-plugin-markdown@3.14.0
 
-      - name: Generate documentation
-        run: pnpx typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts
+      - name: Generate Documentation
+        run: pnpm exec typedoc
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
