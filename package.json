@@ -34,7 +34,7 @@
     "api-client"
   ],
   "author": "ErNewDev0",
-"license": "Unlicense",
+  "license": "Unlicense",
   "repository": {
     "type": "git",
     "url": "https://github.com/ErBots/Er-Api-Sdk"
