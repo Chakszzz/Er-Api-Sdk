@@ -12,25 +12,23 @@ async function fetchGame(path: string): Promise<string> {
     throw new Error("Invalid path: must be a non-empty string");
   }
 
+  const url = new URL(path, baseUrl).toString();
+
   try {
-    const url = new URL(path, baseUrl).toString();
-    const response = await axios.get(url, {
-      timeout: 10000, // 10 seconds timeout
+    const response = await axios.get<string>(url, {
+      timeout: 10000,
       validateStatus: (status) => status === 200,
     });
 
-    if (typeof response.data !== "string") {
-      throw new Error("Invalid response type: expected string");
-    }
-
     return response.data;
-  } catch (error) {
-    console.error(`Failed to fetch game data from ${path}:`, error);
-    throw new Error(`Game service unavailable: ${error.message}`);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unknown error occurred";
+    console.error(`Failed to fetch game data from ${path}:`, err);
+    throw new Error(`Game service unavailable: ${message}`);
   }
 }
 
-// Type Games Endpoint
+// Game endpoint types
 type GameEndpoint =
   | "tebakkata"
   | "tebakkabupaten"
@@ -52,9 +50,7 @@ type GameEndpoint =
  * Factory function to create game API functions
  */
 function createGameFunction(endpoint: GameEndpoint): () => Promise<string> {
-  return async function (): Promise<string> {
-    return fetchGame(`/games/${endpoint}`);
-  };
+  return () => fetchGame(`/games/${endpoint}`);
 }
 
 // Export all game functions
