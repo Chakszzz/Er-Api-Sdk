@@ -12,6 +12,6 @@
     "typedoc-plugin-mdn-links",
     "typedoc-github-theme"
   ],
-  "name": "er-api-sdk",
-  "theme": "default"
+  "name": "Er-Api SDK",
+  "theme": "github"
 }
