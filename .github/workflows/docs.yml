@@ -1,13 +1,10 @@
 name: Build and Deploy Documentation
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
-
-permissions:
-  contents: write
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -17,23 +14,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: latest
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
+
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install TypeDoc and plugins
-        run: pnpm add -D typedoc typedoc-plugin-markdown
+      - name: Install TypeDoc and Plugin
+        run: pnpm add -D typedoc@0.25.3 typedoc-plugin-markdown@3.14.0
 
-      - name: Generate documentation with TypeDoc
+      - name: Generate documentation
         run: pnpx typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts
 
       - name: Deploy to GitHub Pages
