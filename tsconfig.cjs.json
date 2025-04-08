@@ -4,7 +4,7 @@
     "outDir": "dist/cjs",
     "module": "commonjs",
     "target": "es2018",
-    "declaration": false,
+    "declaration": true,
     "esModuleInterop": true
   }
 }
