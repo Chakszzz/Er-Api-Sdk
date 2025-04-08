@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9%2B-blue)](https://www.typescriptlang.org/)
 [![Documentation](https://img.shields.io/badge/docs-TypeDoc-brightgreen)](https://ernewdev0.github.io/er-api-sdk/)
 
-A Powerfull TypeScript/JavaScript SDK for accessing ER-API services, providing easy access to AI models, media downloads, games, and various other utilities.
+A Powerful TypeScript/JavaScript SDK for accessing [ER-API](https://er-api.biz.id) services, providing easy access to AI models, media downloads, games, and various other utilities.
 
 ## 📋 Table of Contents
 
@@ -39,15 +39,15 @@ pnpm add er-api-sdk
 ## 🚀 Quick Start
 
 ```typescript
-import { er } from 'er-api-sdk';
+import { ErApiSdk } from 'er-api-sdk';
 import * as dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
 
 // Or set API keys manually
-er.setApiKey('deepseek', 'YOUR_DEEPSEEK_API_KEY');
-er.setApiKey('openai', 'YOUR_OPENAI_API_KEY');
+ErApiSdk.setApiKey('deepseek', 'YOUR_DEEPSEEK_API_KEY');
+ErApiSdk.setApiKey('openai', 'YOUR_OPENAI_API_KEY');
 
 // Optional: Change the base URL if needed
 // er.setBaseUrl('https://your-custom-api.example.com');
@@ -55,20 +55,16 @@ er.setApiKey('openai', 'YOUR_OPENAI_API_KEY');
 async function main() {
   try {
     // Generate AI responses
-    const response = await er.ai.deepseek('What is the capital of France?', 'deepseek-chat');
+    const response = await ErApiSdk.deepseek('What is the capital of France?', 'deepseek-chat');
     console.log('AI Response:', response);
     
-    // Download videos
-    const videoInfo = await er.dl.ermp4('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
-    console.log('Video Info:', videoInfo);
-    
     // Generate images
-    const imageBuffer = await er.get.brat('anime character with blue hair');
+    const imageBuffer = await ErApiSdk.brat('heello world');
     require('fs').writeFileSync('anime.jpg', imageBuffer);
     console.log('Image saved as anime.jpg');
     
     // Play games
-    const wordGame = await er.games.tebakkata();
+    const wordGame = await ErApiSdk.tebakkata();
     console.log('Word Game:', wordGame);
   } catch (error) {
     console.error('Error:', error);
@@ -82,7 +78,7 @@ main();
 
 - **Multiple AI Providers** - OpenAI, DeepSeek, Anthropic, Gemini, Mistral, and more
 - **Media Downloads** - TikTok, Spotify, YouTube, and more
-- **Image Generation** - Anime, general images
+- **Image Generation** - Generated images from text
 - **Games** - Word games, puzzles, quizzes
 - **Traditional Fortune Telling** - Name meanings, lucky numbers
 
@@ -92,10 +88,10 @@ main();
 
 ```typescript
 // Using different AI providers
-const deepseekResponse = await er.ai.deepseek('Hello, who are you?', 'deepseek-chat');
-const openaiResponse = await er.ai.openai('What is the capital of France?', 'gpt-3.5-turbo');
-const anthropicResponse = await er.ai.anthropic('Tell me a joke', 'claude-3-haiku');
-const geminiResponse = await er.ai.gemini('Explain quantum computing', 'gemini-pro');
+const deepseekResponse = await ErApiSdk.deepseek('Hello, who are you?', 'deepseek-chat');
+const openaiResponse = await ErApiSdk.openai('What is the capital of France?', 'gpt-4o-mini');
+const anthropicResponse = await ErApiSdk.anthropic('Tell me a joke', 'claude-3-haiku');
+const geminiResponse = await ErApiSdk.gemini('Explain quantum computing', 'gemini-pro');
 
 // ... other providers: cohere, mistral, perplexity, nlpc, groq, huggingface, together
 ```
@@ -103,41 +99,32 @@ const geminiResponse = await er.ai.gemini('Explain quantum computing', 'gemini-p
 ### Download Services
 
 ```typescript
-// Download audio from a URL
-const audio = await er.dl.ermp3(url);
-
-// Download video from a URL
-const video = await er.dl.ermp4(url);
-
 // Download TikTok video without watermark
-const tiktok = await er.dl.ttdl(tiktokUrl);
+const tiktok = await ErApiSdk.ttdl(tiktokUrl);
 
 // Download Spotify track
-const spotify = await er.dl.spotify(spotifyUrl);
+const spotify = await ErApiSdk.spotify(spotifyUrl);
 ```
 
 ### Image Services
 
 ```typescript
 // Get anime/image generation
-const imageBuffer = await er.get.brat("anime girl");
+const imageBuffer = await ErApiSdk.brat("halo dunia");
 
 // Get waifu images
-const waifu = await er.get.waifu("waifu");
-
-// Get Pinterest images
-const pins = await er.get.pinterest("cute cats");
+const waifu = await ErApiSdk.waifu("waifu");
 ```
 
 ### Game Services
 
 ```typescript
 // Various Indonesian word games
-const wordGame = await er.games.tebakkata();
-const regionGame = await er.games.tebakkabupaten();
-const brainTeaser = await er.games.asahotak();
-const lyricsGame = await er.games.tebaklirik();
-const familyGame = await er.games.family100();
+const wordGame = await ErApiSdk.tebakkata();
+const regionGame = await ErApiSdk.tebakkabupaten();
+const brainTeaser = await ErApiSdk.asahotak();
+const lyricsGame = await ErApiSdk.tebaklirik();
+const familyGame = await ErApiSdk.family100();
 
 // Other games available:
 // caklontong, siapakahaku, susunkata, tebakbendera,
@@ -149,10 +136,10 @@ const familyGame = await er.games.family100();
 
 ```typescript
 // Get name meaning
-const meaning = await er.primbon.artinama("John");
+const meaning = await ErApiSdk.artinama("John");
 
 // Get lucky number
-const luckyNumber = await er.primbon.nomorhoki(7);
+const luckyNumber = await ErApiSdk.nomorhoki(7);
 ```
 
 ## ⚙️ Configuration
@@ -187,10 +174,10 @@ You can register and use custom endpoints easily:
 
 ```typescript
 // Register a custom endpoint
-er.registerCustomEndpoint('weather', '/api/weather');
+ErApiSdk.registerCustomEndpoint('weather', '/api/weather');
 
 // Use the custom endpoint
-const weatherData = await er.custom.weather({ city: 'Jakarta' });
+const weatherData = await ErApiSdk.custom.weather({ city: 'Jakarta' });
 console.log('Weather:', weatherData);
 
 // You can also register endpoints via environment variables:
@@ -201,16 +188,16 @@ console.log('Weather:', weatherData);
 
 ```typescript
 // Set API keys
-er.setApiKey('deepseek', 'YOUR_DEEPSEEK_KEY');
+ErApiSdk.setApiKey('deepseek', 'YOUR_DEEPSEEK_KEY');
 
 // Change base URL
-er.setBaseUrl('https://your-custom-api.example.com');
+ErApiSdk.setBaseUrl('https://your-custom-api.example.com');
 
 // Get current base URL
-const currentUrl = er.getBaseUrl();
+const currentUrl = ErApiSdk.getBaseUrl();
 
 // View all registered custom endpoints
-const endpoints = er.getCustomEndpoints();
+const endpoints = ErApiSdk.getCustomEndpoints();
 console.log('Custom endpoints:', endpoints);
 ```
 
@@ -220,7 +207,7 @@ The SDK includes built-in error handling:
 
 ```typescript
 try {
-  const response = await er.ai.deepseek('Hello world', 'deepseek-chat');
+  const response = await ErApiSdk.deepseek('Hello world', 'deepseek-chat');
   console.log(response);
 } catch (error) {
   console.error('Error details:', error);
@@ -232,62 +219,10 @@ try {
 }
 ```
 
-## 📝 Examples
-
-### AI Text Generation
-
-```typescript
-import { er } from 'er-api-sdk';
-
-async function generateText() {
-  // Generate text with OpenAI
-  const openaiResponse = await er.ai.openai("Tell me a short story", "gpt-3.5-turbo");
-  console.log("OpenAI:", openaiResponse);
-  
-  // Generate text with DeepSeek
-  const deepseekResponse = await er.ai.deepseek("Explain quantum computing", "deepseek-chat");
-  console.log("DeepSeek:", deepseekResponse);
-}
-```
-
-### Downloading Media
-
-```typescript
-import { er } from 'er-api-sdk';
-import fs from 'fs';
-
-async function downloadMedia() {
-  // Download MP3 from YouTube
-  const audioData = await er.dl.ermp3("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-  console.log("Audio URL:", audioData.audioUrl);
-  
-  // Download TikTok without watermark
-  const tiktokData = await er.dl.ttdl("https://www.tiktok.com/@username/video/1234567890");
-  console.log("TikTok Video:", tiktokData);
-}
-```
-
-### Using Image Services
-
-```typescript
-import { er } from 'er-api-sdk';
-import fs from 'fs';
-
-async function getImages() {
-  // Generate and save an image
-  const imageBuffer = await er.get.brat("i'm a god thunder");
-  fs.writeFileSync("anime-landscape.jpg", imageBuffer);
-  
-  // Get Pinterest images
-  const pinterestImages = await er.get.pinterest("cute animals");
-  console.log("Pinterest Images:", pinterestImages);
-}
-```
-
 ## 📖 Documentation
 
 For detailed API documentation, visit our [Docs](https://erbots.github.io/er-api-sdk/).
 
 ## 📄 License
 
-This project is licensed under the Unlicense - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Unlicense - see the [LICENSE](https://github.com/ErBots/Er-Api-SDK) file for details.

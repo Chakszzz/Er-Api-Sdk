@@ -52,6 +52,21 @@ export function getCustomEndpoints(): CustomEndpointMap {
   return { ...customEndpoints };
 }
 
+// Only showing the fixed URL building part
+const buildUrl = (endpointPath: string, currentBaseUrl: string): string => {
+  // Remove trailing slash from baseUrl if present
+  const baseWithoutTrailingSlash = currentBaseUrl.endsWith('/') ?
+    currentBaseUrl.slice(0, -1) :
+    currentBaseUrl;
+  
+  // Ensure path starts with slash
+  const pathWithLeadingSlash = endpointPath.startsWith('/') ?
+    endpointPath :
+    `/${endpointPath}`;
+  
+  return `${baseWithoutTrailingSlash}${pathWithLeadingSlash}`;
+};
+
 /**
  * Call a custom endpoint with parameters
  * @param name - Name of the custom endpoint to call
@@ -68,11 +83,7 @@ export async function callCustomEndpoint(name: string, params ? : Record < strin
   const currentBaseUrl = getBaseUrl();
   const endpointPath = customEndpoints[endpointName];
   
-  // Ensure we don't double-slash when joining paths
-  const url = new URL(
-    endpointPath.startsWith('/') ? endpointPath : `/${endpointPath}`,
-    currentBaseUrl.endsWith('/') ? currentBaseUrl : `${currentBaseUrl}/`
-  ).toString();
+  const url = buildUrl(endpointPath, currentBaseUrl);
   
   // Add query parameters if provided
   const finalUrl = params && Object.keys(params).length > 0 ?
