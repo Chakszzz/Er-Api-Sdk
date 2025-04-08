@@ -3,7 +3,8 @@
 [![NPM Version](https://img.shields.io/npm/v/er-api-sdk.svg)](https://www.npmjs.com/package/er-api-sdk)
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9%2B-blue)](https://www.typescriptlang.org/)
-[![Documentation](https://img.shields.io/badge/docs-TypeDoc-brightgreen)](https://ernewdev0.github.io/er-api-sdk/)
+[![Documentation](https://img.shields.io/badge/docs-TypeDoc-brightgreen)](https://ErBots.github.io/Er-Api-Sdk/)
+[![ER API](https://img.shields.io/badge/Er--API-RestApi-%23ffaa00)](https://er-api.biz.id)
 
 A Powerful TypeScript/JavaScript SDK for accessing [ER-API](https://er-api.biz.id) services, providing easy access to AI models, media downloads, games, and various other utilities.
 
