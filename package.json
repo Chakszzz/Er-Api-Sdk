@@ -34,7 +34,15 @@
     "api-client"
   ],
   "author": "ErNewDev0",
-  "license": "Unlicense",
+"license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ErBots/Er-Api-Sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/ErBots/Er-Api-Sdk/issues"
+  },
+  "homepage": "https://ErNewDev0.github.io",
   "dependencies": {
     "axios": "^1.6.0",
     "dotenv": "^16.3.1"
