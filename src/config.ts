@@ -13,7 +13,7 @@ const apiKeys: Record<string, string> = {
   groq: process.env.GROQ_API_KEY || "",
   together: process.env.TOGETHER_API_KEY || "",
   nlpc: process.env.NLPC_API_KEY || "",
-  hf: process.env.HF_API_KEY || ""
+  hf: process.env.HF_API_KEY || "",
 };
 
 // Default base URL with fallback

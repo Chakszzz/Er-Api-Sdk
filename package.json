@@ -26,7 +26,13 @@
     "docs:dev": "typedoc --out docs src/index.ts --watch",
     "test": "jest"
   },
-  "keywords": ["er-api", "sdk", "ai", "typescript", "api-client"],
+  "keywords": [
+    "er-api",
+    "sdk",
+    "ai",
+    "typescript",
+    "api-client"
+  ],
   "author": "ErNewDev0",
   "license": "Unlicense",
   "dependencies": {

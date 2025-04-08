@@ -36,11 +36,11 @@ const ErApiSdk = {
   ermp4: dl.ermp4,
   ttdl: dl.ttdl,
   xnxx: dl.xnxx,
-  spotify: dl.spotify
+  spotify: dl.spotify,
 };
 
 export const er = ErApiSdk;
 export default ErApiSdk;
 
 export { ai, img, games, dl, primbon };
-export { custom } from './custom';
+export { custom } from "./custom";

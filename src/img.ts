@@ -9,16 +9,16 @@ import { baseUrl } from "./config";
  * @throws Will throw error if request fails
  */
 async function fetchImage(endpoint: string, prompt: string): Promise<Buffer> {
-  if (!prompt || typeof prompt !== 'string') {
-    throw new Error('Prompt must be a non-empty string');
+  if (!prompt || typeof prompt !== "string") {
+    throw new Error("Prompt must be a non-empty string");
   }
-  
+
   const url = `${baseUrl}/get/${endpoint}?t=${encodeURIComponent(prompt)}`;
   const response = await axios.get(url, {
-    responseType: 'arraybuffer',
-    timeout: 10000 // 10 seconds timeout
+    responseType: "arraybuffer",
+    timeout: 10000, // 10 seconds timeout
   });
-  
+
   return Buffer.from(response.data);
 }
 
@@ -28,7 +28,7 @@ async function fetchImage(endpoint: string, prompt: string): Promise<Buffer> {
  * @returns Promise resolving to image Buffer
  */
 export async function brat(prompt: string): Promise<Buffer> {
-  return fetchImage('brat', prompt);
+  return fetchImage("brat", prompt);
 }
 
 /**
@@ -37,7 +37,7 @@ export async function brat(prompt: string): Promise<Buffer> {
  * @returns Promise resolving to image Buffer
  */
 export async function generate(prompt: string): Promise<Buffer> {
-  return fetchImage('generate', prompt);
+  return fetchImage("generate", prompt);
 }
 
 /**
@@ -46,5 +46,5 @@ export async function generate(prompt: string): Promise<Buffer> {
  * @returns Promise resolving to image Buffer
  */
 export async function text2img(prompt: string): Promise<Buffer> {
-  return fetchImage('text2img', prompt);
+  return fetchImage("text2img", prompt);
 }

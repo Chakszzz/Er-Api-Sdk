@@ -39,15 +39,15 @@ pnpm add er-api-sdk
 ## 🚀 Quick Start
 
 ```typescript
-import { ErApiSdk } from 'er-api-sdk';
-import * as dotenv from 'dotenv';
+import { ErApiSdk } from "er-api-sdk";
+import * as dotenv from "dotenv";
 
 // Load environment variables from .env file
 dotenv.config();
 
 // Or set API keys manually
-ErApiSdk.setApiKey('deepseek', 'YOUR_DEEPSEEK_API_KEY');
-ErApiSdk.setApiKey('openai', 'YOUR_OPENAI_API_KEY');
+ErApiSdk.setApiKey("deepseek", "YOUR_DEEPSEEK_API_KEY");
+ErApiSdk.setApiKey("openai", "YOUR_OPENAI_API_KEY");
 
 // Optional: Change the base URL if needed
 // er.setBaseUrl('https://your-custom-api.example.com');
@@ -55,19 +55,22 @@ ErApiSdk.setApiKey('openai', 'YOUR_OPENAI_API_KEY');
 async function main() {
   try {
     // Generate AI responses
-    const response = await ErApiSdk.deepseek('What is the capital of France?', 'deepseek-chat');
-    console.log('AI Response:', response);
-    
+    const response = await ErApiSdk.deepseek(
+      "What is the capital of France?",
+      "deepseek-chat",
+    );
+    console.log("AI Response:", response);
+
     // Generate images
-    const imageBuffer = await ErApiSdk.brat('heello world');
-    require('fs').writeFileSync('anime.jpg', imageBuffer);
-    console.log('Image saved as anime.jpg');
-    
+    const imageBuffer = await ErApiSdk.brat("heello world");
+    require("fs").writeFileSync("anime.jpg", imageBuffer);
+    console.log("Image saved as anime.jpg");
+
     // Play games
     const wordGame = await ErApiSdk.tebakkata();
-    console.log('Word Game:', wordGame);
+    console.log("Word Game:", wordGame);
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
   }
 }
 
@@ -88,10 +91,22 @@ main();
 
 ```typescript
 // Using different AI providers
-const deepseekResponse = await ErApiSdk.deepseek('Hello, who are you?', 'deepseek-chat');
-const openaiResponse = await ErApiSdk.openai('What is the capital of France?', 'gpt-4o-mini');
-const anthropicResponse = await ErApiSdk.anthropic('Tell me a joke', 'claude-3-haiku');
-const geminiResponse = await ErApiSdk.gemini('Explain quantum computing', 'gemini-pro');
+const deepseekResponse = await ErApiSdk.deepseek(
+  "Hello, who are you?",
+  "deepseek-chat",
+);
+const openaiResponse = await ErApiSdk.openai(
+  "What is the capital of France?",
+  "gpt-4o-mini",
+);
+const anthropicResponse = await ErApiSdk.anthropic(
+  "Tell me a joke",
+  "claude-3-haiku",
+);
+const geminiResponse = await ErApiSdk.gemini(
+  "Explain quantum computing",
+  "gemini-pro",
+);
 
 // ... other providers: cohere, mistral, perplexity, nlpc, groq, huggingface, together
 ```
@@ -174,11 +189,11 @@ You can register and use custom endpoints easily:
 
 ```typescript
 // Register a custom endpoint
-ErApiSdk.registerCustomEndpoint('weather', '/api/weather');
+ErApiSdk.registerCustomEndpoint("weather", "/api/weather");
 
 // Use the custom endpoint
-const weatherData = await ErApiSdk.custom.weather({ city: 'Jakarta' });
-console.log('Weather:', weatherData);
+const weatherData = await ErApiSdk.custom.weather({ city: "Jakarta" });
+console.log("Weather:", weatherData);
 
 // You can also register endpoints via environment variables:
 // ERAPI_CUSTOM_ENDPOINT_WEATHER=/api/weather
@@ -188,17 +203,17 @@ console.log('Weather:', weatherData);
 
 ```typescript
 // Set API keys
-ErApiSdk.setApiKey('deepseek', 'YOUR_DEEPSEEK_KEY');
+ErApiSdk.setApiKey("deepseek", "YOUR_DEEPSEEK_KEY");
 
 // Change base URL
-ErApiSdk.setBaseUrl('https://your-custom-api.example.com');
+ErApiSdk.setBaseUrl("https://your-custom-api.example.com");
 
 // Get current base URL
 const currentUrl = ErApiSdk.getBaseUrl();
 
 // View all registered custom endpoints
 const endpoints = ErApiSdk.getCustomEndpoints();
-console.log('Custom endpoints:', endpoints);
+console.log("Custom endpoints:", endpoints);
 ```
 
 ## Error Handling
@@ -207,11 +222,11 @@ The SDK includes built-in error handling:
 
 ```typescript
 try {
-  const response = await ErApiSdk.deepseek('Hello world', 'deepseek-chat');
+  const response = await ErApiSdk.deepseek("Hello world", "deepseek-chat");
   console.log(response);
 } catch (error) {
-  console.error('Error details:', error);
-  
+  console.error("Error details:", error);
+
   // The error object contains detailed information:
   // - status: HTTP status code
   // - error: Error message

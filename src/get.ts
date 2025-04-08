@@ -12,7 +12,7 @@ export async function f(path: string): Promise<any> {
     return res.data;
   } catch (err) {
     const error = err as AxiosError;
-    
+
     if (error.response) {
       // Server responded with a status code outside the 2xx range
       console.error("[API ERROR] Response error:", {
@@ -21,7 +21,7 @@ export async function f(path: string): Promise<any> {
         data: error.response.data,
         headers: error.response.headers,
       });
-      
+
       return {
         success: false,
         status: error.response.status,
@@ -34,7 +34,7 @@ export async function f(path: string): Promise<any> {
         url: `${baseUrl}${path}`,
         request: error.request,
       });
-      
+
       return {
         success: false,
         error: "No response received from server",
@@ -46,7 +46,7 @@ export async function f(path: string): Promise<any> {
         url: `${baseUrl}${path}`,
         message: error.message,
       });
-      
+
       return {
         success: false,
         error: "Request setup error",

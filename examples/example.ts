@@ -10,11 +10,17 @@ er.setApiKey("openai", "YOUR_OPENAI_KEY");
 async function main() {
   try {
     // Tes endpoint ai.deepseek
-    const deepseekResult = await er.ai.deepseek("Hello, who are you?", "deepseek-chat");
+    const deepseekResult = await er.ai.deepseek(
+      "Hello, who are you?",
+      "deepseek-chat",
+    );
     console.log("Deepseek Result:", deepseekResult);
 
     // Tes endpoint ai.openai
-    const openaiResult = await er.ai.openai("What is the capital of France?", "gpt-3.5-turbo");
+    const openaiResult = await er.ai.openai(
+      "What is the capital of France?",
+      "gpt-3.5-turbo",
+    );
     console.log("OpenAI Result:", openaiResult);
 
     // Tes endpoint get.tebakkata (no parameter)
@@ -25,7 +31,6 @@ async function main() {
     const imageBuffer = await er.get.brat("anime");
     require("fs").writeFileSync("anime.jpg", imageBuffer);
     console.log("Image saved as anime.jpg");
-
   } catch (err) {
     console.error("Error:", err);
   }
