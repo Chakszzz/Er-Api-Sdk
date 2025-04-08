@@ -45,7 +45,7 @@ export async function ermp4(u: string): Promise<any> {
  * console.log(result); // fallback json
  * ```
  */
-export async function ttdl(u: string): Promise<TiktokResponse | any> {
+export async function ttdl(u: string): Promise<TikTokResponse | any> {
   return await f(`/dl/ttdl?u=${encodeURIComponent(u)}`);
 }
 
