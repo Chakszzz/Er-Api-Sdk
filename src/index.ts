@@ -1,22 +1,31 @@
 export * from "./er";
 
 export { custom, registerCustomEndpoint, getCustomEndpoints } from "./custom";
-export { setApiKey, setBaseUrl, getBaseUrl } from "./config";
+export { setBaseUrl, getBaseUrl } from "./config";
 
 export {
-  deepseek,
-  openai,
-  groq,
-  huggingface,
-  together,
+  OpenErApi,
+  openRouter,
+  chat,
+  reasoning,
+  getModels,
+  checkModel,
+  gpt4,
+  gpt35,
+  claude3,
+  claude3s,
+  claude3h,
   mistral,
-  perplexity,
-  nlpc,
-  anthropic,
-  cohere,
-} from "./ai";
+  gemini,
+  gemini2,
+  llama3,
+  mixtral,
+  llamavision,
+  MODEL_ALIASES
+}
+from "./er-api";
 
-export { brat, generate, text2img } from "./img";
+export { brat, generate as imgGenerate, text2img } from "./img";
 
 export { ermp3, ermp4, ttdl, xnxx, spotify } from "./dl";
 

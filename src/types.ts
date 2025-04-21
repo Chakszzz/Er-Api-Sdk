@@ -1,8 +1,12 @@
-export interface AIOptions {
-  t: string;
-  model?: string;
-  [key: string]: any;
-}
+export type ModelParams = {
+  system ? : string;
+  temperature ? : number;
+  max_tokens ? : number;
+  maxtokens ? : number;
+  top_p ? : number;
+  frequency_penalty ? : number;
+  presence_penalty ? : number;
+};
 
 export interface TikTokResponse {
   status: number;

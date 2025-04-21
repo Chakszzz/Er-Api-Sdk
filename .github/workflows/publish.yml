@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -19,46 +20,48 @@ jobs:
         with:
           version: latest
 
-      - name: Ensure pnpm-lock.yaml exists
-        run: |
-          if [ ! -f pnpm-lock.yaml ]; then
-            echo "pnpm-lock.yaml not found, generating..."
-            pnpm install --lockfile-only
-          else
-            echo "pnpm-lock.yaml already exists."
-          fi
-
-      - name: Install Node.js (with cache)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies (auto fallback if lockfile missing)
+      - name: Install dependencies
         run: |
           if [ ! -f pnpm-lock.yaml ]; then
-            echo "Generating lockfile and installing..."
-            pnpm install
-          else
-            echo "Using frozen lockfile install..."
-            pnpm install --ignore-scripts --frozen-lockfile
+            echo "::warning::Lockfile tidak ada. Membuat yang baru..."
+            pnpm install --lockfile-only
+            
+            git config --global user.email "remixingmagelang@gmail.com"
+            git config --global user.name "ErBots"
+            
+            git add pnpm-lock.yaml
+            git commit -m "chore: add lockfile"
+            git push
           fi
+      
+          pnpm install --frozen-lockfile
+
       - name: Validate package.json
         run: |
-          if [ ! -f package.json ]; then
-            echo "Error: package.json not found!"
+          if ! jq empty package.json; then
+            echo "✅ package.json valid"
+          else
+            echo "❌ Invalid package.json"
             exit 1
           fi
-          cat package.json | jq . > /dev/null || { echo "Error: Invalid JSON in package.json"; exit 1; }
 
       - name: Get package version
         id: package_version
         run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
 
-      - name: Publish package to NPM
+      - name: Publish to NPM
         run: |
           pnpm publish --access public --no-git-checks
+
+          CURRENT_VERSION=$(jq -r .version package.json)
+          pnpm exec -c "npm deprecate $(jq -r .name package.json)@\"<${CURRENT_VERSION}\" \"This version is deprecated. Please upgrade to ${CURRENT_VERSION}.\""
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
           NPM_CONFIG_PROVENANCE: true
