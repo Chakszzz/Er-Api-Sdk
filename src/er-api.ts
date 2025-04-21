@@ -355,7 +355,8 @@ export async function modelAlias(
   prompt: string,
   params?: ModelParams,
 ): Promise<any> {
-  const modelId = (MODEL_ALIASES as Record<string, string>)[alias.toLowerCase()] || alias;
+  const modelId =
+    (MODEL_ALIASES as Record<string, string>)[alias.toLowerCase()] || alias;
   return openRouter.chat(modelId, prompt, params);
 }
 
