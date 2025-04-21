@@ -55,9 +55,11 @@ jobs:
       - name: Publish to NPM
         run: |
           pnpm publish --access public --no-git-checks
-
+      
           CURRENT_VERSION=$(jq -r .version package.json)
-          pnpm exec -c "npm deprecate $(jq -r .name package.json)@\"<${CURRENT_VERSION}\" \"This version is deprecated. Please upgrade to ${CURRENT_VERSION}.\""
+          PACKAGE_NAME=$(jq -r .name package.json)
+          
+          npm deprecate "${PACKAGE_NAME}@<${CURRENT_VERSION}" "This version is deprecated. Please upgrade to ${CURRENT_VERSION}."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
           NPM_CONFIG_PROVENANCE: true
