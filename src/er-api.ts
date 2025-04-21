@@ -1,6 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "./config";
-import { ModelParams } from "./types.ts";
+import { ModelParams } from "./types";
 import { MissingApiKeyError } from "./errors";
 
 /**
@@ -355,7 +355,7 @@ export async function modelAlias(
   prompt: string,
   params?: ModelParams,
 ): Promise<any> {
-  const modelId = MODEL_ALIASES[alias.toLowerCase()] || alias;
+  const modelId = (MODEL_ALIASES as Record<string, string>)[alias.toLowerCase()] || alias;
   return openRouter.chat(modelId, prompt, params);
 }
 
