@@ -2,7 +2,11 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": ["./tsconfig.cjs.json", "./tsconfig.esm.json", "./tsconfig.types.json"],
+    "project": [
+      "./tsconfig.cjs.json",
+      "./tsconfig.esm.json",
+      "./tsconfig.types.json"
+    ],
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "import"],
@@ -20,7 +24,14 @@
     "import/order": [
       "warn",
       {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
         "newlines-between": "always"
       }
     ]
