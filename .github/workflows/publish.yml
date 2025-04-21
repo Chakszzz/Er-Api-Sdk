@@ -33,11 +33,11 @@ jobs:
             echo "::warning::Lockfile tidak ada. Membuat yang baru..."
             pnpm install --lockfile-only
             
-            git config --global user.email "remixingmagelang@gmail.com"
+            git config --global user.email "hub@erdev.biz.id"
             git config --global user.name "ErBots"
             
             git add pnpm-lock.yaml
-            git commit -m "chore: add lockfile"
+            git commit -m "chore: add lockfile [skip ci]"
             git push
           fi
       
