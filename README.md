@@ -6,70 +6,48 @@
 [![Documentation](https://img.shields.io/badge/docs-TypeDoc-brightgreen)](https://ErBots.github.io/Er-Api-Sdk/)
 [![ER API](https://img.shields.io/badge/Er--API-RestApi-%23ffaa00)](https://er-api.biz.id)
 
-A Powerful TypeScript/JavaScript SDK for accessing [ER-API](https://er-api.biz.id) services, providing easy access to AI models, media downloads, games, and various other utilities.
+A TypeScript/JavaScript SDK for the [ER-API](https://er-api.biz.id) platform, providing easy access to AI models, media downloads, image generation, games, and other utilities.
 
 [![NPM](https://nodei.co/npm/er-api-sdk.png)](https://npmjs.org/package/er-api-sdk)
 
-## 📋 Table of Contents
-
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Features](#features)
-- [API Reference](#api-reference)
-  - [AI Services](#ai-services)
-  - [Download Services](#download-services)
-  - [Image Services](#image-services)
-  - [Game Services](#game-services)
-  - [Primbon Services](#primbon-services)
-- [Configuration](#configuration)
-- [Examples](#examples)
-- [Documentation](#documentation)
-- [License](#license)
-
-## 📦 Installation
+## Installation
 
 ```bash
-# Using npm
-npm install er-api-sdk
-
-# Using yarn
-yarn add er-api-sdk
-
-# Using pnpm
-pnpm add er-api-sdk
+npm install er-api-sdk   # npm
+yarn add er-api-sdk      # yarn 
+pnpm add er-api-sdk      # pnpm
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ```typescript
 import { ErApiSdk } from "er-api-sdk";
 import * as dotenv from "dotenv";
 
-// Load environment variables from .env file
+// Load environment variables
 dotenv.config();
 
-// Or set API keys manually
-ErApiSdk.setApiKey("deepseek", "YOUR_DEEPSEEK_API_KEY");
-ErApiSdk.setApiKey("openai", "YOUR_OPENAI_API_KEY");
+// Option 1: Initialize with environment variables
+const sdk = ErApiSdk.fromEnv();
 
-// Optional: Change the base URL if needed
-// er.setBaseUrl('https://your-custom-api.example.com');
+// Option 2: Set API keys directly
+ErApiSdk.openRouter.setApiKey("YOUR_OPENROUTER_API_KEY");
 
 async function main() {
   try {
-    // Generate AI responses
-    const response = await ErApiSdk.deepseek(
-      "What is the capital of France?",
-      "deepseek-chat",
-    );
-    console.log("AI Response:", response);
+    // Chat with AI models
+    const aiResponse = await sdk.gpt4("What is the capital of France?");
+    console.log("AI Response:", aiResponse);
 
-    // Generate images
-    const imageBuffer = await ErApiSdk.brat("heello world");
-    require("fs").writeFileSync("anime.jpg", imageBuffer);
-    console.log("Image saved as anime.jpg");
-
-    // Play games
+    // Generate an image
+    const imageBuffer = await ErApiSdk.brat("a colorful landscape");
+    require("fs").writeFileSync("image.jpg", imageBuffer);
+    
+    // Download TikTok video
+    const tiktok = await ErApiSdk.ttdl("https://www.tiktok.com/@user/video/12345");
+    console.log("TikTok download:", tiktok);
+    
+    // Play a word game
     const wordGame = await ErApiSdk.tebakkata();
     console.log("Word Game:", wordGame);
   } catch (error) {
@@ -80,167 +58,122 @@ async function main() {
 main();
 ```
 
-## ✨ Features
-
-- **Multiple AI Providers** - OpenAI, DeepSeek, Anthropic, Gemini, Mistral, and more
-- **Media Downloads** - TikTok, Spotify, YouTube, and more
-- **Image Generation** - Generated images from text
-- **Games** - Word games, puzzles, quizzes
-- **Traditional Fortune Telling** - Name meanings, lucky numbers
-
-## 📚 API Reference
+## Main Features
 
 ### AI Services
-
 ```typescript
-// Using different AI providers
-const deepseekResponse = await ErApiSdk.deepseek(
-  "Hello, who are you?",
-  "deepseek-chat",
-);
-const openaiResponse = await ErApiSdk.openai(
-  "What is the capital of France?",
-  "gpt-4o-mini",
-);
-const anthropicResponse = await ErApiSdk.anthropic(
-  "Tell me a joke",
-  "claude-3-haiku",
-);
-const geminiResponse = await ErApiSdk.gemini(
-  "Explain quantum computing",
-  "gemini-pro",
-);
+// Initialize from environment variables (recommended)
+const sdk = ErApiSdk.fromEnv();
 
-// ... other providers: cohere, mistral, perplexity, nlpc, groq, huggingface, together
+// Use model aliases for convenience
+const response = await sdk.gpt4("Your prompt here");
+const claude = await sdk.claude3("Tell me a story");
+
+// Direct model access with options
+const customResponse = await sdk.chat("openai/gpt-4-turbo", "Hello world", {
+  temperature: 0.7,
+  max_tokens: 500
+});
+
+// Available model aliases:
+// gpt4, gpt35, claude3, claude3s, claude3h, mistral, gemini, 
+// gemini2, llama3, mixtral, llamavision
 ```
 
-### Download Services
+> **Note:** Direct access to individual AI providers (like `ErApiSdk.deepseek()`, `ErApiSdk.openai()`, etc.) has been deprecated in favor of the unified OpenRouter interface shown above.
 
+### Media Downloads
 ```typescript
-// Download TikTok video without watermark
-const tiktok = await ErApiSdk.ttdl(tiktokUrl);
-
-// Download Spotify track
-const spotify = await ErApiSdk.spotify(spotifyUrl);
+// Download videos/audio from various platforms
+const tiktok = await ErApiSdk.ttdl("https://www.tiktok.com/@user/video/12345");
+const spotify = await ErApiSdk.spotify("https://open.spotify.com/track/...");
+const mp3 = await ErApiSdk.ermp3("https://youtube.com/watch?v=xxxx");
+const mp4 = await ErApiSdk.ermp4("https://youtube.com/watch?v=xxxx");
 ```
 
-### Image Services
-
+### Image Generation
 ```typescript
-// Get anime/image generation
-const imageBuffer = await ErApiSdk.brat("halo dunia");
-
-// Get waifu images
-const waifu = await ErApiSdk.waifu("waifu");
+// Generate images from text descriptions
+const imageBuffer = await ErApiSdk.brat("anime girl with blue hair");
+const text2imgBuffer = await ErApiSdk.text2img("Your text here");
 ```
 
-### Game Services
-
+### Games & Entertainment
 ```typescript
-// Various Indonesian word games
+// Indonesian word games
 const wordGame = await ErApiSdk.tebakkata();
-const regionGame = await ErApiSdk.tebakkabupaten();
-const brainTeaser = await ErApiSdk.asahotak();
-const lyricsGame = await ErApiSdk.tebaklirik();
 const familyGame = await ErApiSdk.family100();
+const truthGame = await ErApiSdk.truth();
+const dareGame = await ErApiSdk.dare();
 
-// Other games available:
-// caklontong, siapakahaku, susunkata, tebakbendera,
-// tebakgambar, tebakkimia, tebaktebakan, tekateki,
-// truth, dare
-```
-
-### Primbon Services
-
-```typescript
-// Get name meaning
-const meaning = await ErApiSdk.artinama("John");
-
-// Get lucky number
-const luckyNumber = await ErApiSdk.nomorhoki(7);
-```
-
-## ⚙️ Configuration
-
-### Using .env file (recommended)
-
-Create a `.env` file in your project root:
-
-```
-OPENAI_API_KEY=your_openai_key
-DEEPSEEK_API_KEY=your_deepseek_key
-ANTHROPIC_API_KEY=your_anthropic_key
-GEMINI_API_KEY=your_gemini_key
-MISTRAL_API_KEY=your_mistral_key
-PERPLEXITY_API_KEY=your_perplexity_key
-COHERE_API_KEY=your_cohere_key
-GROQ_API_KEY=your_groq_key
-HF_API_KEY=your_huggingface_key
-TOGETHER_API_KEY=your_together_key
-NLPC_API_KEY=your_nlpc_key
-
-# Base URL (optional)
-ERAPI_BASE_URL=https://er-api.biz.id
-
-# Custom endpoints (optional)
-ERAPI_CUSTOM_ENDPOINT_WEATHER=/api/weather
+// Many more games available - see documentation
 ```
 
 ### Custom Endpoints
-
-You can register and use custom endpoints easily:
-
 ```typescript
-// Register a custom endpoint
+// Register and use custom endpoints
 ErApiSdk.registerCustomEndpoint("weather", "/api/weather");
-
-// Use the custom endpoint
-const weatherData = await ErApiSdk.custom.weather({ city: "Jakarta" });
-console.log("Weather:", weatherData);
-
-// You can also register endpoints via environment variables:
-// ERAPI_CUSTOM_ENDPOINT_WEATHER=/api/weather
+const weather = await ErApiSdk.custom.weather({ city: "Jakarta" });
 ```
 
-### Advanced Configuration
+## Configuration
+
+### Using Environment Variables
+
+The SDK can load all API keys from environment variables with the `fromEnv()` method:
 
 ```typescript
-// Set API keys
-ErApiSdk.setApiKey("deepseek", "YOUR_DEEPSEEK_KEY");
+// Create an SDK instance with environment variables
+const sdk = ErApiSdk.fromEnv();
+
+// This loads the following environment variables:
+// - OPENROUTER_API_KEY: For OpenRouter access (required for custom params)
+// - ERAPI_BASE_URL: Optional custom API base URL
+// - ERAPI_CUSTOM_ENDPOINT_*: For custom endpoints (optional)
+```
+
+This approach is recommended for production use as it keeps your API keys secure and separate from your code.
+
+### Using .env File
+```
+# AI API Keys
+OPENROUTER_API_KEY=your_openrouter_key
+
+# Custom endpoints (optional)
+ERAPI_CUSTOM_ENDPOINT_WEATHER=/api/weather
+
+# Base URL (optional)
+ERAPI_BASE_URL=https://er-api.biz.id
+```
+
+### Manual Configuration
+```typescript
+// Set API key
+ErApiSdk.openRouter.setApiKey("YOUR_API_KEY");
 
 // Change base URL
 ErApiSdk.setBaseUrl("https://your-custom-api.example.com");
-
-// Get current base URL
-const currentUrl = ErApiSdk.getBaseUrl();
-
-// View all registered custom endpoints
-const endpoints = ErApiSdk.getCustomEndpoints();
-console.log("Custom endpoints:", endpoints);
 ```
 
 ## Error Handling
 
-The SDK includes built-in error handling:
-
 ```typescript
 try {
-  const response = await ErApiSdk.deepseek("Hello world", "deepseek-chat");
+  const response = await ErApiSdk.gpt4("Hello world");
   console.log(response);
 } catch (error) {
-  console.error("Error details:", error);
-
-  // The error object contains detailed information:
-  // - status: HTTP status code
-  // - error: Error message
-  // - data: Server response (if available)
+  if (error.name === "MissingApiKeyError") {
+    console.error("API key not provided");
+  } else {
+    console.error("Error:", error.message);
+  }
 }
 ```
 
-## 📖 Documentation
+## Documentation
 
-For detailed API documentation, visit our [Docs](https://erbots.github.io/Er-Api-Sdk/).
+For detailed API documentation, visit our [TypeDoc Documentation](https://erbots.github.io/Er-Api-Sdk/).
 
-## 📄 License
+## License
 
 This project is licensed under the Unlicense - see the [LICENSE](https://github.com/ErBots/Er-Api-SDK) file for details.
