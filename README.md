@@ -14,7 +14,7 @@ A TypeScript/JavaScript SDK for the [ER-API](https://er-api.biz.id) platform, pr
 
 ```bash
 npm install er-api-sdk   # npm
-yarn add er-api-sdk      # yarn 
+yarn add er-api-sdk      # yarn
 pnpm add er-api-sdk      # pnpm
 ```
 
@@ -42,11 +42,13 @@ async function main() {
     // Generate an image
     const imageBuffer = await ErApiSdk.brat("a colorful landscape");
     require("fs").writeFileSync("image.jpg", imageBuffer);
-    
+
     // Download TikTok video
-    const tiktok = await ErApiSdk.ttdl("https://www.tiktok.com/@user/video/12345");
+    const tiktok = await ErApiSdk.ttdl(
+      "https://www.tiktok.com/@user/video/12345",
+    );
     console.log("TikTok download:", tiktok);
-    
+
     // Play a word game
     const wordGame = await ErApiSdk.tebakkata();
     console.log("Word Game:", wordGame);
@@ -61,6 +63,7 @@ main();
 ## Main Features
 
 ### AI Services
+
 ```typescript
 // Initialize from environment variables (recommended)
 const sdk = ErApiSdk.fromEnv();
@@ -72,17 +75,18 @@ const claude = await sdk.claude3("Tell me a story");
 // Direct model access with options
 const customResponse = await sdk.chat("openai/gpt-4-turbo", "Hello world", {
   temperature: 0.7,
-  max_tokens: 500
+  max_tokens: 500,
 });
 
 // Available model aliases:
-// gpt4, gpt35, claude3, claude3s, claude3h, mistral, gemini, 
+// gpt4, gpt35, claude3, claude3s, claude3h, mistral, gemini,
 // gemini2, llama3, mixtral, llamavision
 ```
 
 > **Note:** Direct access to individual AI providers (like `ErApiSdk.deepseek()`, `ErApiSdk.openai()`, etc.) has been deprecated in favor of the unified OpenRouter interface shown above.
 
 ### Media Downloads
+
 ```typescript
 // Download videos/audio from various platforms
 const tiktok = await ErApiSdk.ttdl("https://www.tiktok.com/@user/video/12345");
@@ -92,6 +96,7 @@ const mp4 = await ErApiSdk.ermp4("https://youtube.com/watch?v=xxxx");
 ```
 
 ### Image Generation
+
 ```typescript
 // Generate images from text descriptions
 const imageBuffer = await ErApiSdk.brat("anime girl with blue hair");
@@ -99,6 +104,7 @@ const text2imgBuffer = await ErApiSdk.text2img("Your text here");
 ```
 
 ### Games & Entertainment
+
 ```typescript
 // Indonesian word games
 const wordGame = await ErApiSdk.tebakkata();
@@ -110,6 +116,7 @@ const dareGame = await ErApiSdk.dare();
 ```
 
 ### Custom Endpoints
+
 ```typescript
 // Register and use custom endpoints
 ErApiSdk.registerCustomEndpoint("weather", "/api/weather");
@@ -135,6 +142,7 @@ const sdk = ErApiSdk.fromEnv();
 This approach is recommended for production use as it keeps your API keys secure and separate from your code.
 
 ### Using .env File
+
 ```
 # AI API Keys
 OPENROUTER_API_KEY=your_openrouter_key
@@ -147,6 +155,7 @@ ERAPI_BASE_URL=https://er-api.biz.id
 ```
 
 ### Manual Configuration
+
 ```typescript
 // Set API key
 ErApiSdk.openRouter.setApiKey("YOUR_API_KEY");
