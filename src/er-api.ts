@@ -1,6 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "./config";
-import { ModelParams } from "/types.ts";
+import { ModelParams } from "./types.ts";
 import { MissingApiKeyError } from "./errors";
 
 /**
@@ -39,6 +39,9 @@ export class OpenErApi {
    * @returns The current OpenRouter API key
    */
   getApiKey(): string {
+    if (!this.key) {
+      throw new MissingApiKeyError('Api key not set')
+    }
     return this.key;
   }
 
