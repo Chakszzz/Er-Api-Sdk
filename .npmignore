@@ -1,5 +1,0 @@
-.github
-.env
-node_modules/
-tsconfig.*
-typedoc.json
