@@ -43,7 +43,7 @@ const ErApiSdk = {
     const sdk = { ...ErApiSdk };
     sdk.openRouter = openRouter.OpenErApi.fromEnv();
     return sdk;
-  }
+  },
 };
 
 export const er = ErApiSdk;

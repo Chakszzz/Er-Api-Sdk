@@ -21,9 +21,8 @@ export {
   llama3,
   mixtral,
   llamavision,
-  MODEL_ALIASES
-}
-from "./er-api";
+  MODEL_ALIASES,
+} from "./er-api";
 
 export { brat, generate as imgGenerate, text2img } from "./img";
 

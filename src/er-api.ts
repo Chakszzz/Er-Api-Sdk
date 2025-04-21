@@ -1,6 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "./config";
-import { ModelParams } from "/types.ts"
+import { ModelParams } from "/types.ts";
 import { MissingApiKeyError } from "./errors";
 
 /**
@@ -8,7 +8,7 @@ import { MissingApiKeyError } from "./errors";
  */
 export class OpenErApi {
   private key: string;
-  
+
   /**
    * Creates a new OpenRouter API client instance
    * @param key - OpenRouter API key (obtain from platform.er-api.biz.id)
@@ -50,11 +50,11 @@ export class OpenErApi {
     try {
       const url = `${baseUrl}/ai/models`;
       const params: Record<string, string> = {};
-      
+
       if (this.key) {
         params.key = this.key;
       }
-      
+
       const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
@@ -71,11 +71,11 @@ export class OpenErApi {
     try {
       const url = `${baseUrl}/ai/models/${modelId}`;
       const params: Record<string, string> = {};
-      
+
       if (this.key) {
         params.key = this.key;
       }
-      
+
       const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
@@ -90,28 +90,34 @@ export class OpenErApi {
    * @param params - Optional parameters for the model
    * @returns Promise resolving to the model response
    */
-  async chat(modelId: string, prompt: string, params?: ModelParams): Promise<any> {
+  async chat(
+    modelId: string,
+    prompt: string,
+    params?: ModelParams,
+  ): Promise<any> {
     if (!prompt?.trim()) {
       throw new Error("Prompt cannot be empty");
     }
 
-    const hasCustomParams = params && (
-      (params.system !== undefined) ||
-      params.max_tokens !== undefined ||
-      params.maxtokens !== undefined ||
-      params.top_p !== undefined ||
-      params.frequency_penalty !== undefined ||
-      params.presence_penalty !== undefined ||
-      params.temperature !== undefined
-    );
+    const hasCustomParams =
+      params &&
+      (params.system !== undefined ||
+        params.max_tokens !== undefined ||
+        params.maxtokens !== undefined ||
+        params.top_p !== undefined ||
+        params.frequency_penalty !== undefined ||
+        params.presence_penalty !== undefined ||
+        params.temperature !== undefined);
 
     if (hasCustomParams && !this.key) {
-      throw new MissingApiKeyError("OpenRouter API key required when using custom parameters.\n\n> Visit: https://platform.er-api.biz.id to get apikey");
+      throw new MissingApiKeyError(
+        "OpenRouter API key required when using custom parameters.\n\n> Visit: https://platform.er-api.biz.id to get apikey",
+      );
     }
 
     try {
       const queryParams: Record<string, string> = {
-        t: prompt
+        t: prompt,
       };
 
       if (this.key) {
@@ -119,12 +125,18 @@ export class OpenErApi {
       }
 
       if (params?.system) queryParams.system = params.system;
-      if (params?.temperature !== undefined) queryParams.temperature = params.temperature.toString();
-      if (params?.max_tokens !== undefined) queryParams.max_tokens = params.max_tokens.toString();
-      if (params?.maxtokens !== undefined) queryParams.maxtokens = params.maxtokens.toString();
-      if (params?.top_p !== undefined) queryParams.top_p = params.top_p.toString();
-      if (params?.frequency_penalty !== undefined) queryParams.frequency_penalty = params.frequency_penalty.toString();
-      if (params?.presence_penalty !== undefined) queryParams.presence_penalty = params.presence_penalty.toString();
+      if (params?.temperature !== undefined)
+        queryParams.temperature = params.temperature.toString();
+      if (params?.max_tokens !== undefined)
+        queryParams.max_tokens = params.max_tokens.toString();
+      if (params?.maxtokens !== undefined)
+        queryParams.maxtokens = params.maxtokens.toString();
+      if (params?.top_p !== undefined)
+        queryParams.top_p = params.top_p.toString();
+      if (params?.frequency_penalty !== undefined)
+        queryParams.frequency_penalty = params.frequency_penalty.toString();
+      if (params?.presence_penalty !== undefined)
+        queryParams.presence_penalty = params.presence_penalty.toString();
 
       // Make API request
       const url = `${baseUrl}/ai/${modelId}`;
@@ -142,14 +154,18 @@ export class OpenErApi {
    * @param params - Optional parameters for the model
    * @returns Promise resolving to the model response with reasoning
    */
-  async reasoning(modelId: string, prompt: string, params?: ModelParams): Promise<any> {
+  async reasoning(
+    modelId: string,
+    prompt: string,
+    params?: ModelParams,
+  ): Promise<any> {
     if (!prompt?.trim()) {
       throw new Error("Prompt cannot be empty");
     }
 
     try {
       const queryParams: Record<string, string> = {
-        t: prompt
+        t: prompt,
       };
 
       if (this.key) {
@@ -157,12 +173,18 @@ export class OpenErApi {
       }
 
       if (params?.system) queryParams.system = params.system;
-      if (params?.temperature !== undefined) queryParams.temperature = params.temperature.toString();
-      if (params?.max_tokens !== undefined) queryParams.max_tokens = params.max_tokens.toString();
-      if (params?.maxtokens !== undefined) queryParams.maxtokens = params.maxtokens.toString();
-      if (params?.top_p !== undefined) queryParams.top_p = params.top_p.toString();
-      if (params?.frequency_penalty !== undefined) queryParams.frequency_penalty = params.frequency_penalty.toString();
-      if (params?.presence_penalty !== undefined) queryParams.presence_penalty = params.presence_penalty.toString();
+      if (params?.temperature !== undefined)
+        queryParams.temperature = params.temperature.toString();
+      if (params?.max_tokens !== undefined)
+        queryParams.max_tokens = params.max_tokens.toString();
+      if (params?.maxtokens !== undefined)
+        queryParams.maxtokens = params.maxtokens.toString();
+      if (params?.top_p !== undefined)
+        queryParams.top_p = params.top_p.toString();
+      if (params?.frequency_penalty !== undefined)
+        queryParams.frequency_penalty = params.frequency_penalty.toString();
+      if (params?.presence_penalty !== undefined)
+        queryParams.presence_penalty = params.presence_penalty.toString();
 
       // Make API request
       const url = `${baseUrl}/ai/${modelId}/reasoning`;
@@ -183,12 +205,12 @@ export class OpenErApi {
    * @param params - Optional parameters for the model
    */
   async streamGenerate(
-    modelId: string, 
-    prompt: string, 
+    modelId: string,
+    prompt: string,
     onData: (data: any) => void,
     onError: (error: any) => void,
     onComplete: (data: any) => void,
-    params?: ModelParams
+    params?: ModelParams,
   ): Promise<void> {
     if (!prompt?.trim()) {
       throw new Error("Prompt cannot be empty");
@@ -196,7 +218,7 @@ export class OpenErApi {
 
     try {
       const queryParams: Record<string, string> = {
-        t: prompt
+        t: prompt,
       };
 
       if (this.key) {
@@ -204,27 +226,36 @@ export class OpenErApi {
       }
 
       if (params?.system) queryParams.system = params.system;
-      if (params?.temperature !== undefined) queryParams.temperature = params.temperature.toString();
-      if (params?.max_tokens !== undefined) queryParams.max_tokens = params.max_tokens.toString();
-      if (params?.maxtokens !== undefined) queryParams.maxtokens = params.maxtokens.toString();
-      if (params?.top_p !== undefined) queryParams.top_p = params.top_p.toString();
-      if (params?.frequency_penalty !== undefined) queryParams.frequency_penalty = params.frequency_penalty.toString();
-      if (params?.presence_penalty !== undefined) queryParams.presence_penalty = params.presence_penalty.toString();
+      if (params?.temperature !== undefined)
+        queryParams.temperature = params.temperature.toString();
+      if (params?.max_tokens !== undefined)
+        queryParams.max_tokens = params.max_tokens.toString();
+      if (params?.maxtokens !== undefined)
+        queryParams.maxtokens = params.maxtokens.toString();
+      if (params?.top_p !== undefined)
+        queryParams.top_p = params.top_p.toString();
+      if (params?.frequency_penalty !== undefined)
+        queryParams.frequency_penalty = params.frequency_penalty.toString();
+      if (params?.presence_penalty !== undefined)
+        queryParams.presence_penalty = params.presence_penalty.toString();
 
       const queryString = Object.entries(queryParams)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-        .join('&');
+        .map(
+          ([key, value]) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+        )
+        .join("&");
 
       const url = `${baseUrl}/ai/${modelId}/stream?${queryString}`;
 
       // Use event source for streaming
       const eventSource = new EventSource(url);
-      let fullResponse = '';
+      let fullResponse = "";
 
       eventSource.onmessage = (event) => {
         try {
           const parsedData = JSON.parse(event.data);
-          
+
           if (parsedData.error) {
             onError(parsedData.error);
             eventSource.close();
@@ -272,15 +303,15 @@ export class OpenErApi {
 export const MODEL_ALIASES = {
   gpt4: "openai/gpt-4-turbo",
   gpt35: "openai/gpt-3.5-turbo",
-  claude3: "anthropic/claude-3-opus", 
+  claude3: "anthropic/claude-3-opus",
   claude3s: "anthropic/claude-3-sonnet",
   claude3h: "anthropic/claude-3-haiku",
   mistral: "mistralai/mistral-7b-instruct",
   gemini: "google/gemini-pro",
   gemini2: "google/gemini-2.0-flash-exp:free",
   llama3: "meta-llama/llama-3-70b-instruct",
-  mixtral: "mistralai/mixtral-8x7b-instruct", 
-  llamavision: "meta-llama/llama-3.2-11b-vision-instruct:free"
+  mixtral: "mistralai/mixtral-8x7b-instruct",
+  llamavision: "meta-llama/llama-3.2-11b-vision-instruct:free",
 };
 
 export const openRouter = new OpenErApi();
@@ -293,11 +324,19 @@ export async function checkModel(modelId: string): Promise<any> {
   return openRouter.checkModel(modelId);
 }
 
-export async function chat(modelId: string, prompt: string, params?: ModelParams): Promise<any> {
+export async function chat(
+  modelId: string,
+  prompt: string,
+  params?: ModelParams,
+): Promise<any> {
   return openRouter.chat(modelId, prompt, params);
 }
 
-export async function reasoning(modelId: string, prompt: string, params?: ModelParams): Promise<any> {
+export async function reasoning(
+  modelId: string,
+  prompt: string,
+  params?: ModelParams,
+): Promise<any> {
   return openRouter.reasoning(modelId, prompt, params);
 }
 
@@ -308,19 +347,34 @@ export async function reasoning(modelId: string, prompt: string, params?: ModelP
  * @param params - Optional parameters for generation
  * @returns The model response
  */
-export async function modelAlias(alias: string, prompt: string, params?: ModelParams): Promise<any> {
+export async function modelAlias(
+  alias: string,
+  prompt: string,
+  params?: ModelParams,
+): Promise<any> {
   const modelId = MODEL_ALIASES[alias.toLowerCase()] || alias;
   return openRouter.chat(modelId, prompt, params);
 }
 
-export const gpt4 = (prompt: string, params?: ModelParams) => modelAlias("gpt4", prompt, params);
-export const gpt35 = (prompt: string, params?: ModelParams) => modelAlias("gpt35", prompt, params);
-export const claude3 = (prompt: string, params?: ModelParams) => modelAlias("claude3", prompt, params); 
-export const claude3s = (prompt: string, params?: ModelParams) => modelAlias("claude3s", prompt, params);
-export const claude3h = (prompt: string, params?: ModelParams) => modelAlias("claude3h", prompt, params);
-export const mistral = (prompt: string, params?: ModelParams) => modelAlias("mistral", prompt, params);
-export const gemini = (prompt: string, params?: ModelParams) => modelAlias("gemini", prompt, params);
-export const gemini2 = (prompt: string, params?: ModelParams) => modelAlias("gemini2", prompt, params);
-export const llama3 = (prompt: string, params?: ModelParams) => modelAlias("llama3", prompt, params);
-export const mixtral = (prompt: string, params?: ModelParams) => modelAlias("mixtral", prompt, params);
-export const llamavision = (prompt: string, params?: ModelParams) => modelAlias("llamavision", prompt, params);
+export const gpt4 = (prompt: string, params?: ModelParams) =>
+  modelAlias("gpt4", prompt, params);
+export const gpt35 = (prompt: string, params?: ModelParams) =>
+  modelAlias("gpt35", prompt, params);
+export const claude3 = (prompt: string, params?: ModelParams) =>
+  modelAlias("claude3", prompt, params);
+export const claude3s = (prompt: string, params?: ModelParams) =>
+  modelAlias("claude3s", prompt, params);
+export const claude3h = (prompt: string, params?: ModelParams) =>
+  modelAlias("claude3h", prompt, params);
+export const mistral = (prompt: string, params?: ModelParams) =>
+  modelAlias("mistral", prompt, params);
+export const gemini = (prompt: string, params?: ModelParams) =>
+  modelAlias("gemini", prompt, params);
+export const gemini2 = (prompt: string, params?: ModelParams) =>
+  modelAlias("gemini2", prompt, params);
+export const llama3 = (prompt: string, params?: ModelParams) =>
+  modelAlias("llama3", prompt, params);
+export const mixtral = (prompt: string, params?: ModelParams) =>
+  modelAlias("mixtral", prompt, params);
+export const llamavision = (prompt: string, params?: ModelParams) =>
+  modelAlias("llamavision", prompt, params);
