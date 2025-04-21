@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  push:
+    paths:
+      - 'package.json'
   workflow_dispatch:
 
 jobs:
