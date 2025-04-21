@@ -19,7 +19,7 @@ const ErApiSdk = {
   getCustomEndpoints,
   getModels: openRouter.getModels,
   checkModel: openRouter.checkModel,
-  generate: openRouter.generate,
+  chat: openRouter.chat,
   reasoning: openRouter.reasoning,
   gpt4: openRouter.gpt4,
   gpt35: openRouter.gpt35,
