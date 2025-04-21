@@ -22,7 +22,13 @@ export {
   mixtral,
   llamavision,
   MODEL_ALIASES,
+  fromEnv
 } from "./er-api";
+
+export function fromEnv() {
+  const sdk = { ...ErApiSdk, openRouterInstance: openRouter.OpenErApi.fromEnv() };
+  return sdk;
+}
 
 export { brat, generate as imgGenerate, text2img } from "./img";
 
