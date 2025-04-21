@@ -44,12 +44,9 @@ jobs:
 
       - name: Validate package.json
         run: |
-          if ! jq empty package.json; then
-            echo "✅ package.json valid"
-          else
-            echo "❌ Invalid package.json"
-            exit 1
-          fi
+          jq empty package.json \
+            && echo "✅ package.json valid" \
+            || (echo "❌ Invalid package.json" && exit 1)
 
       - name: Get package version
         id: package_version
