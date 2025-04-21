@@ -40,7 +40,7 @@ export class OpenErApi {
    */
   getApiKey(): string {
     if (!this.key) {
-      throw new MissingApiKeyError('Api key not set')
+      throw new MissingApiKeyError("Api key not set");
     }
     return this.key;
   }
