@@ -1,10 +1,10 @@
-import * as openRouter from "./er-api";
-import * as img from "./img";
-import * as games from "./games";
-import * as dl from "./dl";
-import * as primbon from "./primbon";
-import { custom, registerCustomEndpoint, getCustomEndpoints } from "./custom";
-import { setBaseUrl, getBaseUrl } from "./config";
+import * as openRouter from './er-api';
+import * as img from './img';
+import * as games from './games';
+import * as dl from './dl';
+import * as primbon from './primbon';
+import { custom, registerCustomEndpoint, getCustomEndpoints } from './custom';
+import { setBaseUrl, getBaseUrl } from './config';
 
 const ErApiSdk = {
   openRouter,
@@ -89,4 +89,4 @@ export const er = ErApiSdk;
 export default ErApiSdk;
 
 export { openRouter, img, games, dl, primbon };
-export { custom } from "./custom";
+export { custom } from './custom';

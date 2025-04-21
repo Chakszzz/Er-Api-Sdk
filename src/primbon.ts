@@ -1,4 +1,4 @@
-import { f } from "./get";
+import { f } from './get';
 
 /**
  * Get the meaning of a name according to Indonesian primbon tradition.

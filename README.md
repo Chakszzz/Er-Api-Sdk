@@ -21,8 +21,8 @@ pnpm add er-api-sdk      # pnpm
 ## Quick Start
 
 ```typescript
-import { ErApiSdk } from "er-api-sdk";
-import * as dotenv from "dotenv";
+import { ErApiSdk } from 'er-api-sdk';
+import * as dotenv from 'dotenv';
 
 // Load environment variables
 dotenv.config();
@@ -31,29 +31,27 @@ dotenv.config();
 const sdk = ErApiSdk.fromEnv();
 
 // Option 2: Set API keys directly
-ErApiSdk.openRouter.setApiKey("YOUR_OPENROUTER_API_KEY");
+ErApiSdk.openRouter.setApiKey('YOUR_OPENROUTER_API_KEY');
 
 async function main() {
   try {
     // Chat with AI models
-    const aiResponse = await sdk.gpt4("What is the capital of France?");
-    console.log("AI Response:", aiResponse);
+    const aiResponse = await sdk.gpt4('What is the capital of France?');
+    console.log('AI Response:', aiResponse);
 
     // Generate an image
-    const imageBuffer = await ErApiSdk.brat("a colorful landscape");
-    require("fs").writeFileSync("image.jpg", imageBuffer);
+    const imageBuffer = await ErApiSdk.brat('a colorful landscape');
+    require('fs').writeFileSync('image.jpg', imageBuffer);
 
     // Download TikTok video
-    const tiktok = await ErApiSdk.ttdl(
-      "https://www.tiktok.com/@user/video/12345",
-    );
-    console.log("TikTok download:", tiktok);
+    const tiktok = await ErApiSdk.ttdl('https://www.tiktok.com/@user/video/12345');
+    console.log('TikTok download:', tiktok);
 
     // Play a word game
     const wordGame = await ErApiSdk.tebakkata();
-    console.log("Word Game:", wordGame);
+    console.log('Word Game:', wordGame);
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
   }
 }
 
@@ -69,11 +67,11 @@ main();
 const sdk = ErApiSdk.fromEnv();
 
 // Use model aliases for convenience
-const response = await sdk.gpt4("Your prompt here");
-const claude = await sdk.claude3("Tell me a story");
+const response = await sdk.gpt4('Your prompt here');
+const claude = await sdk.claude3('Tell me a story');
 
 // Direct model access with options
-const customResponse = await sdk.chat("openai/gpt-4-turbo", "Hello world", {
+const customResponse = await sdk.chat('openai/gpt-4-turbo', 'Hello world', {
   temperature: 0.7,
   max_tokens: 500,
 });
@@ -89,18 +87,18 @@ const customResponse = await sdk.chat("openai/gpt-4-turbo", "Hello world", {
 
 ```typescript
 // Download videos/audio from various platforms
-const tiktok = await ErApiSdk.ttdl("https://www.tiktok.com/@user/video/12345");
-const spotify = await ErApiSdk.spotify("https://open.spotify.com/track/...");
-const mp3 = await ErApiSdk.ermp3("https://youtube.com/watch?v=xxxx");
-const mp4 = await ErApiSdk.ermp4("https://youtube.com/watch?v=xxxx");
+const tiktok = await ErApiSdk.ttdl('https://www.tiktok.com/@user/video/12345');
+const spotify = await ErApiSdk.spotify('https://open.spotify.com/track/...');
+const mp3 = await ErApiSdk.ermp3('https://youtube.com/watch?v=xxxx');
+const mp4 = await ErApiSdk.ermp4('https://youtube.com/watch?v=xxxx');
 ```
 
 ### Image Generation
 
 ```typescript
 // Generate images from text descriptions
-const imageBuffer = await ErApiSdk.brat("anime girl with blue hair");
-const text2imgBuffer = await ErApiSdk.text2img("Your text here");
+const imageBuffer = await ErApiSdk.brat('anime girl with blue hair');
+const text2imgBuffer = await ErApiSdk.text2img('Your text here');
 ```
 
 ### Games & Entertainment
@@ -119,8 +117,8 @@ const dareGame = await ErApiSdk.dare();
 
 ```typescript
 // Register and use custom endpoints
-ErApiSdk.registerCustomEndpoint("weather", "/api/weather");
-const weather = await ErApiSdk.custom.weather({ city: "Jakarta" });
+ErApiSdk.registerCustomEndpoint('weather', '/api/weather');
+const weather = await ErApiSdk.custom.weather({ city: 'Jakarta' });
 ```
 
 ## Configuration
@@ -158,23 +156,23 @@ ERAPI_BASE_URL=https://er-api.biz.id
 
 ```typescript
 // Set API key
-ErApiSdk.openRouter.setApiKey("YOUR_API_KEY");
+ErApiSdk.openRouter.setApiKey('YOUR_API_KEY');
 
 // Change base URL
-ErApiSdk.setBaseUrl("https://your-custom-api.example.com");
+ErApiSdk.setBaseUrl('https://your-custom-api.example.com');
 ```
 
 ## Error Handling
 
 ```typescript
 try {
-  const response = await ErApiSdk.gpt4("Hello world");
+  const response = await ErApiSdk.gpt4('Hello world');
   console.log(response);
 } catch (error) {
-  if (error.name === "MissingApiKeyError") {
-    console.error("API key not provided");
+  if (error.name === 'MissingApiKeyError') {
+    console.error('API key not provided');
   } else {
-    console.error("Error:", error.message);
+    console.error('Error:', error.message);
   }
 }
 ```

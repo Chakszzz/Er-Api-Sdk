@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 // Default base URL with fallback
-export let baseUrl = process.env.ERAPI_BASE_URL || "https://er-api.biz.id";
+export let baseUrl = process.env.ERAPI_BASE_URL || 'https://er-api.biz.id';
 
 // Store custom endpoints
 export const customEndpoints: Record<string, string> = {};

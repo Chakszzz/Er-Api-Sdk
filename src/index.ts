@@ -1,7 +1,7 @@
-export * from "./er";
+export * from './er';
 
-export { custom, registerCustomEndpoint, getCustomEndpoints } from "./custom";
-export { setBaseUrl, getBaseUrl } from "./config";
+export { custom, registerCustomEndpoint, getCustomEndpoints } from './custom';
+export { setBaseUrl, getBaseUrl } from './config';
 
 export {
   OpenErApi,
@@ -22,15 +22,15 @@ export {
   mixtral,
   llamavision,
   MODEL_ALIASES,
-} from "./er-api";
+} from './er-api';
 
-export { brat, generate as imgGenerate, text2img } from "./img";
+export { brat, generate as imgGenerate, text2img } from './img';
 
-export { ermp3, ermp4, ttdl, xnxx, spotify } from "./dl";
+export { ermp3, ermp4, ttdl, xnxx, spotify } from './dl';
 
-import ErApiSdk, { er } from "./er";
+import ErApiSdk, { er } from './er';
 
-if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = {
     ...ErApiSdk,
     default: ErApiSdk,
