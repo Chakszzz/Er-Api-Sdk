@@ -1,27 +1,55 @@
-name: Prettier Formatting
+name: Validate TS, Lint, Format
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - tsconfig*.json
+      - .eslintrc*
+      - .prettierrc*
+  pull_request:
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - tsconfig*.json
+      - .eslintrc*
+      - .prettierrc*
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  prettier:
+  validate:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
-          prettier_options: '--write **/*.{js,ts,tsx,json,md,css}'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: TypeScript compile check (CJS)
+        run: pnpm exec tsc -p tsconfig.cjs.json --noEmit
+
+      - name: TypeScript compile check (ESM)
+        run: pnpm exec tsc -p tsconfig.esm.json --noEmit
+
+      - name: TypeScript compile check (Types)
+        run: pnpm exec tsc -p tsconfig.types.json --noEmit
+
+      - name: Run ESLint
+        run: pnpm exec eslint "src/**/*.{ts,tsx}" --max-warnings=0
+
+      - name: Run Prettier Check
+        run: pnpm exec prettier --check "src/**/*.{ts,tsx,json,md}"
