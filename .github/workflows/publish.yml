@@ -32,10 +32,10 @@ jobs:
           if [ ! -f pnpm-lock.yaml ]; then
             echo "::warning::Lockfile tidak ada. Membuat yang baru..."
             pnpm install --lockfile-only
-            
+      
             git config --global user.email "hub@erdev.biz.id"
             git config --global user.name "ErBots"
-            
+      
             git add pnpm-lock.yaml
             git commit -m "chore: add lockfile [skip ci]"
             git push
