@@ -39,11 +39,6 @@ const ErApiSdk = {
   ttdl: dl.ttdl,
   xnxx: dl.xnxx,
   spotify: dl.spotify,
-  fromEnv: () => {
-    const sdk = { ...ErApiSdk };
-    sdk.openRouter = openRouter.OpenErApi.fromEnv();
-    return sdk;
-  },
 };
 
 export const er = ErApiSdk;
