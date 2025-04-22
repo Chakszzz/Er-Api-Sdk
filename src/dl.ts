@@ -15,7 +15,8 @@ import { TikTokResponse, SpotifyResponse, XnxxResponse,
  * ```
  */
 export async function ermp3(u: string): Promise < DownloadResponse > {
-  return await f(`/dl/ermp3?u=${encodeURIComponent(u)}`);
+  const data = await f(`/dl/ermp3?u=${encodeURIComponent(u)}`);
+  return data as DownloadResponse;
 }
 
 /**
@@ -31,7 +32,8 @@ export async function ermp3(u: string): Promise < DownloadResponse > {
  * ```
  */
 export async function ermp4(u: string): Promise < DownloadResponse > {
-  return await f(`/dl/ermp4?u=${encodeURIComponent(u)}`);
+  const data = await f(`/dl/ermp4?u=${encodeURIComponent(u)}`);
+  return data as DownloadResponse;
 }
 
 /**
@@ -47,7 +49,8 @@ export async function ermp4(u: string): Promise < DownloadResponse > {
  * ```
  */
 export async function ttdl(u: string): Promise < TikTokResponse > {
-  return await f(`/dl/ttdl?u=${encodeURIComponent(u)}`);
+  const data = await f(`/dl/ttdl?u=${encodeURIComponent(u)}`);
+  return data as TikTokResponse;
 }
 
 /**
@@ -56,7 +59,8 @@ export async function ttdl(u: string): Promise < TikTokResponse > {
  * @returns the response data json
  */
 export async function xnxx(t: string): Promise < XnxxResponse > {
-  return await f(`/dl/xnxx?t=${encodeURIComponent(t)}`);
+  const data = await f(`/dl/xnxx?t=${encodeURIComponent(t)}`);
+  return data as XnxxResponse;
 }
 
 /**
@@ -65,5 +69,6 @@ export async function xnxx(t: string): Promise < XnxxResponse > {
  * @returns Fallback response data json
  */
 export async function spotify(u: string): Promise < SpotifyResponse > {
-  return await f(`/dl/spotify?u=${encodeURIComponent(u)}`);
+  const data = await f(`/dl/spotify?u=${encodeURIComponent(u)}`);
+  return data as SpotifyResponse;
 }

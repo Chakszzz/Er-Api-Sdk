@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getBaseUrl } from "./config";
-import { ApiResponse, CustomEndpointMap } from "./types";
+import { ApiResponse } from "./types";
 
 type CustomEndpointMap = Record<string, string>;
 

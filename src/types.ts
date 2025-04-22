@@ -109,10 +109,6 @@ export interface DownloadResponse {
   [key: string]: unknown;
 }
 
-export interface CustomEndpointMap {
-  [key: string]: string;
-}
-
 export interface ModelInfo {
   id: string;
   name: string;
