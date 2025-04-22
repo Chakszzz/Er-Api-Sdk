@@ -1,6 +1,6 @@
-import { f } from "./get";
+import { f } from './get';
 import { TikTokResponse, SpotifyResponse, XnxxResponse,
-  DownloadResponse } from "./types";
+  DownloadResponse } from './types';
 
 /**
  * Download audio in MP3 format using ER-MP3 endpoint.

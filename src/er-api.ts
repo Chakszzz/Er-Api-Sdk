@@ -1,7 +1,7 @@
 import axios from "axios";
-import { baseUrl } from "./config";
-import { ModelParams, ModelResponse, StreamChunk, ModelInfo, ModelsResponse } from "./types";
-import { MissingApiKeyError } from "./errors";
+import { baseUrl } from './config';
+import { ModelParams, ModelResponse, StreamChunk, ModelInfo, ModelsResponse } from './types';
+import { MissingApiKeyError } from './errors';
 
 /**
  * OpenRouter client for accessing AI models through ER-API

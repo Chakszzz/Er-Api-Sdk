@@ -49,7 +49,7 @@ jobs:
         run: pnpm exec tsc -p tsconfig.types.json --noEmit
 
       - name: Run ESLint
-        run: pnpm exec eslint "src/**/*.{ts,tsx}" --max-warnings=0
+        run: pnpm exec eslint "src/**/*.{ts,tsx}" --max-warnings=0 --fix
 
       - name: Run Prettier Check
         run: pnpm exec prettier --check "src/**/*.{ts,tsx,json,md}"
