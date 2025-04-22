@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { getBaseUrl } from './config';
 
-import { ApiResponse } from './types';
-
 type CustomEndpointMap = Record<string, string>;
 
 // Load custom endpoints from environment variables
