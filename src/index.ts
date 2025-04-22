@@ -31,6 +31,5 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = {
     ...ErApiSdk,
     default: ErApiSdk,
-    er,
   };
 }
