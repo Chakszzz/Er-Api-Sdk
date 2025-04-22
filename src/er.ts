@@ -5,7 +5,6 @@ import * as dl from "./dl";
 import * as primbon from "./primbon";
 import { custom, registerCustomEndpoint, getCustomEndpoints } from "./custom";
 import { setBaseUrl, getBaseUrl } from "./config";
-import { ModelParams, ModelResponse, ModelInfo, ModelsResponse } from "./types";
 
 const ErApiSdk = {
   openRouter,
