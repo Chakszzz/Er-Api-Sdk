@@ -25,7 +25,7 @@ export { brat, generate as imgGenerate, text2img } from './img';
 
 export { ermp3, ermp4, ttdl, xnxx, spotify } from './dl';
 
-import ErApiSdk, { er } from './er';
+import ErApiSdk from './er';
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = {

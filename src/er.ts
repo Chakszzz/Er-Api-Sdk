@@ -7,7 +7,7 @@ import { custom, registerCustomEndpoint, getCustomEndpoints } from "./custom";
 import { setBaseUrl, getBaseUrl } from "./config";
 import { ModelParams } from "./types";
 
-const ErApiSdk = {
+export const ErApiSdk = {
   openRouter,
   img,
   games,
