@@ -5,22 +5,26 @@
     "project": ["./tsconfig.cjs.json", "./tsconfig.esm.json", "./tsconfig.types.json"],
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "import"],
+  "plugins": ["@typescript-eslint", "import", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
   "rules": {
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
+    "prettier/prettier": "error",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
     "import/order": [
       "warn",
       {
         "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
         "newlines-between": "always"
       }
     ]

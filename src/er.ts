@@ -20,15 +20,14 @@ const ErApiSdk = {
   getCustomEndpoints,
   getModels: openRouter.getModels,
   checkModel: openRouter.checkModel,
+  artinama: primbon.artinama,
+  nomorhoki: primbon.nomorhoki,
   chat: openRouter.chat,
   reasoning: openRouter.reasoning,
-  gpt4: openRouter.gpt4,
-  gpt35: openRouter.gpt35,
-  claude3: openRouter.claude3,
-  claude3s: openRouter.claude3s,
-  claude3h: openRouter.claude3h,
+  claude1: openRouter.claude1,
+  deepseek: openRouter.deepseek,
+  deepcoder: openRouter.deepcoder,
   mistral: openRouter.mistral,
-  gemini: openRouter.gemini,
   gemini2: openRouter.gemini2,
   llama3: openRouter.llama3,
   mixtral: openRouter.mixtral,
@@ -49,20 +48,14 @@ const ErApiSdk = {
       apiInstance.reasoning(modelId, prompt, params);
     sdk.getModels = () => apiInstance.getModels();
     sdk.checkModel = (modelId: string) => apiInstance.checkModel(modelId);
-    sdk.gpt4 = (prompt: string, params?: ModelParams) =>
-      apiInstance.chat(openRouter.MODEL_ALIASES.gpt4, prompt, params);
-    sdk.gpt35 = (prompt: string, params?: ModelParams) =>
-      apiInstance.chat(openRouter.MODEL_ALIASES.gpt35, prompt, params);
-    sdk.claude3 = (prompt: string, params?: ModelParams) =>
-      apiInstance.chat(openRouter.MODEL_ALIASES.claude3, prompt, params);
-    sdk.claude3s = (prompt: string, params?: ModelParams) =>
-      apiInstance.chat(openRouter.MODEL_ALIASES.claude3s, prompt, params);
-    sdk.claude3h = (prompt: string, params?: ModelParams) =>
-      apiInstance.chat(openRouter.MODEL_ALIASES.claude3h, prompt, params);
+    sdk.claude1 = (prompt: string, params?: ModelParams) =>
+      apiInstance.chat(openRouter.MODEL_ALIASES.claude1, prompt, params);
+    sdk.deepseek = (prompt: string, params?: ModelParams) =>
+      apiInstance.chat(openRouter.MODEL_ALIASES.deepseek, prompt, params);
+    sdk.deepcoder = (prompt: string, params?: ModelParams) =>
+      apiInstance.chat(openRouter.MODEL_ALIASES.deepcoder, prompt, params);
     sdk.mistral = (prompt: string, params?: ModelParams) =>
       apiInstance.chat(openRouter.MODEL_ALIASES.mistral, prompt, params);
-    sdk.gemini = (prompt: string, params?: ModelParams) =>
-      apiInstance.chat(openRouter.MODEL_ALIASES.gemini, prompt, params);
     sdk.gemini2 = (prompt: string, params?: ModelParams) =>
       apiInstance.chat(openRouter.MODEL_ALIASES.gemini2, prompt, params);
     sdk.llama3 = (prompt: string, params?: ModelParams) =>
@@ -86,7 +79,6 @@ const ErApiSdk = {
   },
 };
 
-export const er = ErApiSdk;
 export default ErApiSdk;
 
 export { openRouter, img, games, dl, primbon };

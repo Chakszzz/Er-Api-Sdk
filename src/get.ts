@@ -28,7 +28,6 @@ export async function f < T = unknown > (path: string): Promise < T |
           success: false,
           status: error.response.status,
           error: "Server responded with an error",
-          data: error.response.data,
         };
       } else if (error.request) {
         // Request was made but no response received

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { baseUrl } from './config';
-import { ModelParams, ModelResponse, StreamChunk, ModelInfo, ModelsResponse } from './types';
-import { MissingApiKeyError } from './errors';
+import { baseUrl } from "./config";
+import { ModelParams } from "./types";
+import { MissingApiKeyError } from "./errors";
 
 /**
  * OpenRouter client for accessing AI models through ER-API
@@ -49,7 +49,7 @@ export class OpenErApi {
    * Get a list of all available AI models
    * @returns Promise resolving to the model list response
    */
-  async getModels(): Promise<ModelsResponse> {
+  async getModels(): Promise<any> {
     try {
       const url = `${baseUrl}/ai/models`;
       const params: Record<string, string> = {};
@@ -58,10 +58,10 @@ export class OpenErApi {
         params.key = this.key;
       }
 
-      const response = await axios.get<ModelsResponse>(url, { params });
+      const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
-      return this.handleApiError(error);
+      this.handleApiError(error);
     }
   }
 
@@ -70,7 +70,7 @@ export class OpenErApi {
    * @param modelId - The model ID to check
    * @returns Promise resolving to the model information if available
    */
-  async checkModel(modelId: string): Promise<ModelInfo> {
+  async checkModel(modelId: string): Promise<any> {
     try {
       const url = `${baseUrl}/ai/models/${modelId}`;
       const params: Record<string, string> = {};
@@ -79,10 +79,10 @@ export class OpenErApi {
         params.key = this.key;
       }
 
-      const response = await axios.get<ModelInfo>(url, { params });
+      const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
-      return this.handleApiError(error);
+      this.handleApiError(error);
     }
   }
 
@@ -97,7 +97,7 @@ export class OpenErApi {
     modelId: string,
     prompt: string,
     params?: ModelParams,
-  ): Promise<ModelResponse> {
+  ): Promise<any> {
     if (!prompt?.trim()) {
       throw new Error("Prompt cannot be empty");
     }
@@ -143,10 +143,10 @@ export class OpenErApi {
 
       // Make API request
       const url = `${baseUrl}/ai/${modelId}`;
-      const response = await axios.get<ModelResponse>(url, { params: queryParams });
+      const response = await axios.get(url, { params: queryParams });
       return response.data;
     } catch (error) {
-      return this.handleApiError(error);
+      this.handleApiError(error);
     }
   }
 
@@ -161,7 +161,7 @@ export class OpenErApi {
     modelId: string,
     prompt: string,
     params?: ModelParams,
-  ): Promise<ModelResponse> {
+  ): Promise<any> {
     if (!prompt?.trim()) {
       throw new Error("Prompt cannot be empty");
     }
@@ -191,10 +191,10 @@ export class OpenErApi {
 
       // Make API request
       const url = `${baseUrl}/ai/${modelId}/reasoning`;
-      const response = await axios.get<ModelResponse>(url, { params: queryParams });
+      const response = await axios.get(url, { params: queryParams });
       return response.data;
     } catch (error) {
-      return this.handleApiError(error);
+      this.handleApiError(error);
     }
   }
 
@@ -210,9 +210,9 @@ export class OpenErApi {
   async streamGenerate(
     modelId: string,
     prompt: string,
-    onData: (data: StreamChunk) => void,
-    onError: (error: Error | string | unknown) => void,
-    onComplete: (data: StreamChunk) => void,
+    onData: (data: any) => void,
+    onError: (error: any) => void,
+    onComplete: (data: any) => void,
     params?: ModelParams,
   ): Promise<void> {
     if (!prompt?.trim()) {
@@ -253,10 +253,11 @@ export class OpenErApi {
 
       // Use event source for streaming
       const eventSource = new EventSource(url);
+      let fullResponse = "";
 
       eventSource.onmessage = (event) => {
         try {
-          const parsedData = JSON.parse(event.data) as StreamChunk;
+          const parsedData = JSON.parse(event.data);
 
           if (parsedData.error) {
             onError(parsedData.error);
@@ -271,6 +272,7 @@ export class OpenErApi {
           }
 
           if (parsedData.content) {
+            fullResponse += parsedData.content;
             onData(parsedData);
           }
         } catch (error) {
@@ -292,7 +294,7 @@ export class OpenErApi {
    * @private
    * @param error - Error from axios or other source
    */
-  private handleApiError(error: unknown): never {
+  private handleApiError(error: any): never {
     if (axios.isAxiosError(error) && error.response) {
       const errorMessage = error.response.data?.why || error.message;
       throw new Error(errorMessage);
@@ -301,27 +303,28 @@ export class OpenErApi {
   }
 }
 
+/** 
+ * Removed gpt model alias
+ * but you can get/use the model through chat(modelID) from https://openrouter.ai/models
+ */
 export const MODEL_ALIASES = {
-  gpt4: "openai/gpt-4-turbo",
-  gpt35: "openai/gpt-3.5-turbo",
-  claude3: "anthropic/claude-3-opus",
-  claude3s: "anthropic/claude-3-sonnet",
-  claude3h: "anthropic/claude-3-haiku",
-  mistral: "mistralai/mistral-7b-instruct",
-  gemini: "google/gemini-pro",
+  claude1: "anthropic/claude-1",
+  deepseek: "deepseek/deepseek-chat-v3-0324:free",
+  mistral: "mistralai/mistral-7b-instruct:free",
+  deepcoder: "agentica-org/deepcoder-14b-preview:free",
   gemini2: "google/gemini-2.0-flash-exp:free",
-  llama3: "meta-llama/llama-3-70b-instruct",
-  mixtral: "mistralai/mixtral-8x7b-instruct",
+  llama3: "meta-llama/llama-3.3-70b-instruct:free",
+  mixtral: "mistralai/mistral-7b-instruct:free",
   llamavision: "meta-llama/llama-3.2-11b-vision-instruct:free",
 };
 
 export const openRouter = new OpenErApi();
 
-export async function getModels(): Promise<ModelsResponse> {
+export async function getModels(): Promise<any> {
   return openRouter.getModels();
 }
 
-export async function checkModel(modelId: string): Promise<ModelInfo> {
+export async function checkModel(modelId: string): Promise<any> {
   return openRouter.checkModel(modelId);
 }
 
@@ -329,7 +332,7 @@ export async function chat(
   modelId: string,
   prompt: string,
   params?: ModelParams,
-): Promise<ModelResponse> {
+): Promise<any> {
   return openRouter.chat(modelId, prompt, params);
 }
 
@@ -337,12 +340,12 @@ export async function reasoning(
   modelId: string,
   prompt: string,
   params?: ModelParams,
-): Promise<ModelResponse> {
+): Promise<any> {
   return openRouter.reasoning(modelId, prompt, params);
 }
 
 /**
- * Generate a response using the named model alias
+ * Generate a streaming response using the named model alias
  * @param alias - Model alias (e.g., "gpt4", "claude3")
  * @param prompt - The prompt to send to the model
  * @param params - Optional parameters for generation
@@ -352,31 +355,24 @@ export async function modelAlias(
   alias: string,
   prompt: string,
   params?: ModelParams,
-): Promise<ModelResponse> {
-  const modelId =
-    (MODEL_ALIASES as Record<string, string>)[alias.toLowerCase()] || alias;
+): Promise<any> {
+  const modelId = (MODEL_ALIASES as Record<string, string>)[alias.toLowerCase()] || alias;
   return openRouter.chat(modelId, prompt, params);
 }
 
-export const gpt4 = (prompt: string, params?: ModelParams) =>
-  modelAlias("gpt4", prompt, params);
-export const gpt35 = (prompt: string, params?: ModelParams) =>
-  modelAlias("gpt35", prompt, params);
-export const claude3 = (prompt: string, params?: ModelParams) =>
-  modelAlias("claude3", prompt, params);
-export const claude3s = (prompt: string, params?: ModelParams) =>
-  modelAlias("claude3s", prompt, params);
-export const claude3h = (prompt: string, params?: ModelParams) =>
-  modelAlias("claude3h", prompt, params);
+export const claude1 = (prompt: string, params?: ModelParams) =>
+  modelAlias("claude1", prompt, params);
 export const mistral = (prompt: string, params?: ModelParams) =>
   modelAlias("mistral", prompt, params);
-export const gemini = (prompt: string, params?: ModelParams) =>
-  modelAlias("gemini", prompt, params);
 export const gemini2 = (prompt: string, params?: ModelParams) =>
   modelAlias("gemini2", prompt, params);
 export const llama3 = (prompt: string, params?: ModelParams) =>
   modelAlias("llama3", prompt, params);
 export const mixtral = (prompt: string, params?: ModelParams) =>
   modelAlias("mixtral", prompt, params);
+export const deepseek = (prompt: string, params ? : ModelParams) =>
+  modelAlias("deepseek", prompt, params);
+export const deepcoder = (prompt: string, params ? : ModelParams) =>
+  modelAlias("deepcoder", prompt, params);
 export const llamavision = (prompt: string, params?: ModelParams) =>
   modelAlias("llamavision", prompt, params);

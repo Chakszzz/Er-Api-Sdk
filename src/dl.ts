@@ -59,7 +59,7 @@ export async function ttdl(u: string): Promise < TikTokResponse > {
  * @returns the response data json
  */
 export async function xnxx(t: string): Promise < XnxxResponse > {
-  const data = await f(`/dl/xnxx?t=${encodeURIComponent(t)}`);
+  const data = await f(`/dl/bkp?nama=${encodeURIComponent(t)}`);
   return data as XnxxResponse;
 }
 

@@ -1,6 +1,6 @@
 export class MissingApiKeyError extends Error {
-  constructor(provider: string) {
-    super(`Missing API key for provider: ${provider}`);
+  constructor(message: string) {
+    super(message);
     this.name = 'MissingApiKeyError';
   }
 }

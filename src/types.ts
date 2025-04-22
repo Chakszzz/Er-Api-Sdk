@@ -125,3 +125,20 @@ export interface ModelsResponse {
   models: ModelInfo[];
   [key: string]: unknown;
 }
+
+export type GameEndpoint = |
+  'tebakkata' |
+  'tebakkabupaten' |
+  'asahotak' |
+  'tebaklirik' |
+  'caklontong' |
+  'family100' |
+  'siapakahaku' |
+  'susunkata' |
+  'tebakbendera' |
+  'tebakgambar' |
+  'tebakkimia' |
+  'tebaktebakan' |
+  'tekateki' |
+  'truth' |
+  'dare';

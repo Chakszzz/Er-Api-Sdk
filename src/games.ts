@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { baseUrl } from './config';
+import type { GameEndpoint } from './types';
 
 /**
  * Helper to fetch data from game endpoints
@@ -27,24 +28,6 @@ async function fetchGame(path: string): Promise<string> {
     throw new Error(`Game service unavailable: ${message}`);
   }
 }
-
-// Game endpoint types
-type GameEndpoint =
-  | 'tebakkata'
-  | 'tebakkabupaten'
-  | 'asahotak'
-  | 'tebaklirik'
-  | 'caklontong'
-  | 'family100'
-  | 'siapakahaku'
-  | 'susunkata'
-  | 'tebakbendera'
-  | 'tebakgambar'
-  | 'tebakkimia'
-  | 'tebaktebakan'
-  | 'tekateki'
-  | 'truth'
-  | 'dare';
 
 /**
  * Factory function to create game API functions
