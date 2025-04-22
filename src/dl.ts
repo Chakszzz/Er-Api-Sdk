@@ -1,5 +1,6 @@
-import { f } from './get';
-import { TikTokResponse, SpotifyResponse, XnxxResponse } from './types';
+import { f } from "./get";
+import { TikTokResponse, SpotifyResponse, XnxxResponse,
+  DownloadResponse } from "./types";
 
 /**
  * Download audio in MP3 format using ER-MP3 endpoint.
@@ -13,7 +14,7 @@ import { TikTokResponse, SpotifyResponse, XnxxResponse } from './types';
  * console.log(result.audioUrl);
  * ```
  */
-export async function ermp3(u: string): Promise<any> {
+export async function ermp3(u: string): Promise < DownloadResponse > {
   return await f(`/dl/ermp3?u=${encodeURIComponent(u)}`);
 }
 
@@ -29,7 +30,7 @@ export async function ermp3(u: string): Promise<any> {
  * console.log(result.videoUrl);
  * ```
  */
-export async function ermp4(u: string): Promise<any> {
+export async function ermp4(u: string): Promise < DownloadResponse > {
   return await f(`/dl/ermp4?u=${encodeURIComponent(u)}`);
 }
 
@@ -45,7 +46,7 @@ export async function ermp4(u: string): Promise<any> {
  * console.log(result); // fallback json
  * ```
  */
-export async function ttdl(u: string): Promise<TikTokResponse | any> {
+export async function ttdl(u: string): Promise < TikTokResponse > {
   return await f(`/dl/ttdl?u=${encodeURIComponent(u)}`);
 }
 
@@ -54,7 +55,7 @@ export async function ttdl(u: string): Promise<TikTokResponse | any> {
  * @param t - the given text to search ur need
  * @returns the response data json
  */
-export async function xnxx(t: string): Promise<XnxxResponse | any> {
+export async function xnxx(t: string): Promise < XnxxResponse > {
   return await f(`/dl/xnxx?t=${encodeURIComponent(t)}`);
 }
 
@@ -63,6 +64,6 @@ export async function xnxx(t: string): Promise<XnxxResponse | any> {
  * @param u - The given url spotify to get downloaded
  * @returns Fallback response data json
  */
-export async function spotify(u: string): Promise<SpotifyResponse | any> {
+export async function spotify(u: string): Promise < SpotifyResponse > {
   return await f(`/dl/spotify?u=${encodeURIComponent(u)}`);
 }

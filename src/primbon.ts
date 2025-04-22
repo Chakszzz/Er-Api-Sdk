@@ -1,12 +1,13 @@
-import { f } from './get';
+import { f } from "./get";
+import { PrimbonResponse } from "./types";
 
 /**
  * Get the meaning of a name according to Indonesian primbon tradition.
  * @param t - The name to analyze
  * @returns The analysis result
  */
-export async function artinama(t: string): Promise<any> {
-  return await f(`/get/artinama?t=${encodeURIComponent(t)}`);
+export async function artinama(t: string): Promise<PrimbonResponse> {
+  return await f<PrimbonResponse>(`/get/artinama?t=${encodeURIComponent(t)}`);
 }
 
 /**
@@ -14,6 +15,6 @@ export async function artinama(t: string): Promise<any> {
  * @param n - The number to analyze
  * @returns The analysis result
  */
-export async function nomorhoki(n: number): Promise<any> {
-  return await f(`/get/nomorhoki?n=${encodeURIComponent(n)}`);
+export async function nomorhoki(n: number): Promise<PrimbonResponse> {
+  return await f<PrimbonResponse>(`/get/nomorhoki?n=${encodeURIComponent(n)}`);
 }

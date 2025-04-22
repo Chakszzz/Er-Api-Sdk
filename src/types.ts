@@ -1,12 +1,21 @@
 export type ModelParams = {
-  system?: string;
-  temperature?: number;
-  max_tokens?: number;
-  maxtokens?: number;
-  top_p?: number;
-  frequency_penalty?: number;
-  presence_penalty?: number;
+  system ? : string;
+  temperature ? : number;
+  max_tokens ? : number;
+  maxtokens ? : number;
+  top_p ? : number;
+  frequency_penalty ? : number;
+  presence_penalty ? : number;
 };
+
+export interface ApiResponse < T = unknown > {
+  success: boolean;
+  status ? : number;
+  error ? : string;
+  data ? : T;
+  message ? : string;
+  request ? : unknown;
+}
 
 export interface TikTokResponse {
   status: number;
@@ -15,10 +24,10 @@ export interface TikTokResponse {
     taken_at: string;
     region: string;
     id: string;
-    data: Array<{
+    data: Array < {
       type: string;
       url: string;
-    }>;
+    } > ;
     song_info: {
       author: string;
       album: string | null;
@@ -56,10 +65,67 @@ export interface XnxxResponse {
 
 export interface SpotifyResponse {
   status: number;
-  hasil: Array<{
+  hasil: Array < {
     judul: string;
     link: string;
     thumb: string;
-  }>;
+  } > ;
   from: string;
+}
+
+export interface PrimbonResponse {
+  status: number;
+  message: string;
+  hasil: Record < string,
+  string | number | boolean > ;
+}
+
+export interface ModelResponse {
+  content: string;
+  model: string;
+  usage ? : {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+  [key: string]: unknown;
+}
+
+export interface StreamChunk {
+  content ? : string;
+  done ? : boolean;
+  error ? : string;
+  [key: string]: unknown;
+}
+
+export interface DownloadResponse {
+  status: number;
+  success: boolean;
+  videoUrl ? : string;
+  audioUrl ? : string;
+  title ? : string;
+  artist ? : string;
+  duration ? : string;
+  [key: string]: unknown;
+}
+
+export interface CustomEndpointMap {
+  [key: string]: string;
+}
+
+export interface ModelInfo {
+  id: string;
+  name: string;
+  provider: string;
+  pricing ? : {
+    prompt: number;
+    completion: number;
+  };
+  context_length ? : number;
+  [key: string]: unknown;
+}
+
+export interface ModelsResponse {
+  models: ModelInfo[];
+  [key: string]: unknown;
 }
