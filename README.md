@@ -1,14 +1,10 @@
 # ER-API SDK
 
 [![NPM Version](https://img.shields.io/npm/v/er-api-sdk.svg)](https://www.npmjs.com/package/er-api-sdk)
-[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9%2B-blue)](https://www.typescriptlang.org/)
 [![Documentation](https://img.shields.io/badge/docs-TypeDoc-brightgreen)](https://ErBots.github.io/Er-Api-Sdk/)
-[![ER API](https://img.shields.io/badge/Er--API-RestApi-%23ffaa00)](https://er-api.biz.id)
 
-A TypeScript/JavaScript SDK for the [ER-API](https://er-api.biz.id) platform, providing easy access to AI models, media downloads, image generation, games, and other utilities.
-
-[![NPM](https://nodei.co/npm/er-api-sdk.png)](https://npmjs.org/package/er-api-sdk)
+A lightweight TypeScript/JavaScript SDK for accessing AI models, media downloads, image generation, games, and utilities through the [ER-API](https://er-api.biz.id) platform.
 
 ## Installation
 
@@ -18,169 +14,141 @@ yarn add er-api-sdk      # yarn
 pnpm add er-api-sdk      # pnpm
 ```
 
-## Quick Start
+## Key Features
 
-```typescript
-import { ErApiSdk } from 'er-api-sdk';
-import * as dotenv from 'dotenv';
+- **AI Models**: Easy access to various AI models (Gemini 2.0, Claude, Mistral, etc.)
+- **Media Downloads**: Download videos/audio from TikTok, Spotify, YouTube, etc.
+- **Image Generation**: Create images from text prompts
+- **Games & Entertainment**: Access word games and other interactive content
+- **Utilities**: Various helper functions and tools
 
-// Load environment variables
-dotenv.config();
+## Usage Examples
 
-// Option 1: Initialize with environment variables
-const sdk = ErApiSdk.fromEnv();
+### Basic Usage (No API Key Required)
 
-// Option 2: Set API keys directly
-ErApiSdk.openRouter.setApiKey('YOUR_OPENROUTER_API_KEY');
+Many endpoints work without an API key:
 
-async function main() {
-  try {
-    // Chat with AI models
-    const aiResponse = await sdk.gpt4('What is the capital of France?');
-    console.log('AI Response:', aiResponse);
+```javascript
+// CommonJS
+const { ttdl, text2img, tebakkata } = require('er-api-sdk');
 
-    // Generate an image
-    const imageBuffer = await ErApiSdk.brat('a colorful landscape');
-    require('fs').writeFileSync('image.jpg', imageBuffer);
+// ESM
+// import { ttdl, text2img, tebakkata } from 'er-api-sdk';
 
-    // Download TikTok video
-    const tiktok = await ErApiSdk.ttdl('https://www.tiktok.com/@user/video/12345');
-    console.log('TikTok download:', tiktok);
+// Download TikTok video
+const tiktokData = await ttdl('https://www.tiktok.com/@user/video/12345');
 
-    // Play a word game
-    const wordGame = await ErApiSdk.tebakkata();
-    console.log('Word Game:', wordGame);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
+// Generate an image from text
+const imageBuffer = await text2img('beautiful mountain landscape');
 
-main();
+// Play a word game
+const game = await tebakkata();
 ```
 
-## Main Features
+### Using AI Models (API Key Optional)
 
-### AI Services
+Basic AI requests work without an API key, but custom parameters require one:
 
-```typescript
-// Initialize from environment variables (recommended)
-const sdk = ErApiSdk.fromEnv();
+```javascript
+// CommonJS
+const { deepseek, llama3, deepcoder } = require('er-api-sdk');
 
-// Use model aliases for convenience
-const response = await sdk.gpt4('Your prompt here');
-const claude = await sdk.claude3('Tell me a story');
+// ESM
+// import { deepseek, llama3, deepcoder } from 'er-api-sdk';
 
-// Direct model access with options
-const customResponse = await sdk.chat('openai/gpt-4-turbo', 'Hello world', {
+// Basic AI requests (no API key needed)
+const response = await deepseek('Explain quantum computing');
+const code = await deepcoder('Write a function to sort an array in JavaScript');
+
+// For custom parameters, you need an API key:
+const { ErApiSdk } = require('er-api-sdk');
+ErApiSdk.openRouter.setApiKey('YOUR_API_KEY');
+
+const customResponse = await llama3('Tell me about space exploration', {
   temperature: 0.7,
-  max_tokens: 500,
+  max_tokens: 500
 });
-
-// Available model aliases:
-// gpt4, gpt35, claude3, claude3s, claude3h, mistral, gemini,
-// gemini2, llama3, mixtral, llamavision
 ```
 
-> **Note:** Direct access to individual AI providers (like `ErApiSdk.deepseek()`, `ErApiSdk.openai()`, etc.) has been deprecated in favor of the unified OpenRouter interface shown above.
+### With Environment Variables
+
+The recommended way to use API keys is through environment variables:
+
+```javascript
+// Set in .env file:
+// OPENROUTER_API_KEY=your_api_key_here
+
+// In your code:
+const { ErApiSdk } = require('er-api-sdk');
+const sdk = ErApiSdk.fromEnv();
+
+// Now you can use advanced features
+const response = await sdk.llama3('Explain quantum computing', {
+  temperature: 0.8,
+  max_tokens: 1000
+});
+```
 
 ### Media Downloads
 
-```typescript
-// Download videos/audio from various platforms
-const tiktok = await ErApiSdk.ttdl('https://www.tiktok.com/@user/video/12345');
-const spotify = await ErApiSdk.spotify('https://open.spotify.com/track/...');
-const mp3 = await ErApiSdk.ermp3('https://youtube.com/watch?v=xxxx');
-const mp4 = await ErApiSdk.ermp4('https://youtube.com/watch?v=xxxx');
+```javascript
+const { ermp3, ermp4, spotify } = require('er-api-sdk');
+
+// Download YouTube audio
+const audioData = await ermp3('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+
+// Download YouTube video
+const videoData = await ermp4('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+
+// Download from Spotify
+const spotifyData = await spotify('https://open.spotify.com/track/...');
 ```
 
 ### Image Generation
 
-```typescript
-// Generate images from text descriptions
-const imageBuffer = await ErApiSdk.brat('anime girl with blue hair');
-const text2imgBuffer = await ErApiSdk.text2img('Your text here');
+```javascript
+const { brat, text2img } = require('er-api-sdk');
+
+// Generate an image with Brat AI
+const bratImage = await brat('hello world');
+
+// Create a text-to-image
+const textImage = await text2img('mountain landscape');
 ```
 
 ### Games & Entertainment
 
-```typescript
-// Indonesian word games
-const wordGame = await ErApiSdk.tebakkata();
-const familyGame = await ErApiSdk.family100();
-const truthGame = await ErApiSdk.truth();
-const dareGame = await ErApiSdk.dare();
+```javascript
+const { family100, truth, dare, tebakkata } = require('er-api-sdk');
 
-// Many more games available - see documentation
+// Family 100 game
+const familyGame = await family100();
+
+// Truth or Dare
+const truthQuestion = await truth();
+const dareChallenge = await dare();
+
+// Word guessing game
+const wordGame = await tebakkata();
 ```
 
-### Custom Endpoints
+## API Key
 
-```typescript
-// Register and use custom endpoints
-ErApiSdk.registerCustomEndpoint('weather', '/api/weather');
-const weather = await ErApiSdk.custom.weather({ city: 'Jakarta' });
-```
+To use AI models with custom parameters, you need an API key from [ER-API Platform](https://platform.er-api.biz.id).
 
-## Configuration
+**Setting your API key:**
 
-### Using Environment Variables
+1. **Environment variable** (recommended):
+   ```
+   OPENROUTER_API_KEY=your_api_key_here
+   ```
 
-The SDK can load all API keys from environment variables with the `fromEnv()` method:
-
-```typescript
-// Create an SDK instance with environment variables
-const sdk = ErApiSdk.fromEnv();
-
-// This loads the following environment variables:
-// - OPENROUTER_API_KEY: For OpenRouter access (required for custom params)
-// - ERAPI_BASE_URL: Optional custom API base URL
-// - ERAPI_CUSTOM_ENDPOINT_*: For custom endpoints (optional)
-```
-
-This approach is recommended for production use as it keeps your API keys secure and separate from your code.
-
-### Using .env File
-
-```
-# AI API Keys
-OPENROUTER_API_KEY=your_openrouter_key
-
-# Custom endpoints (optional)
-ERAPI_CUSTOM_ENDPOINT_WEATHER=/api/weather
-
-# Base URL (optional)
-ERAPI_BASE_URL=https://er-api.biz.id
-```
-
-### Manual Configuration
-
-```typescript
-// Set API key
-ErApiSdk.openRouter.setApiKey('YOUR_API_KEY');
-
-// Change base URL
-ErApiSdk.setBaseUrl('https://your-custom-api.example.com');
-```
-
-## Error Handling
-
-```typescript
-try {
-  const response = await ErApiSdk.gpt4('Hello world');
-  console.log(response);
-} catch (error) {
-  if (error.name === 'MissingApiKeyError') {
-    console.error('API key not provided');
-  } else {
-    console.error('Error:', error.message);
-  }
-}
-```
+2. **Direct in code:**
+   ```javascript
+   const { ErApiSdk } = require('er-api-sdk');
+   ErApiSdk.openRouter.setApiKey('YOUR_API_KEY');
+   ```
 
 ## Documentation
 
-For detailed API documentation, visit our [TypeDoc Documentation](https://erbots.github.io/Er-Api-Sdk/).
-
-## License
-
-This project is licensed under the Unlicense - see the [LICENSE](https://github.com/ErBots/Er-Api-SDK) file for details.
+For detailed API documentation, visit our [Documentation](https://erbots.github.io/Er-Api-Sdk/).
