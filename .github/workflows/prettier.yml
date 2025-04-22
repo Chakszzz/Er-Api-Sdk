@@ -17,6 +17,9 @@ on:
       - .prettierrc*
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -52,4 +55,4 @@ jobs:
         run: pnpm exec eslint "src/**/*.{ts,tsx}" --max-warnings=0 --fix
 
       - name: Run Prettier Check
-        run: pnpm exec prettier --check "src/**/*.{ts,tsx,json,md}"
+        run: pnpm exec prettier --check "src/**/*.{ts,tsx,json,md}" --write
