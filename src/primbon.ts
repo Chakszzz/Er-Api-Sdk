@@ -7,7 +7,8 @@ import { PrimbonResponse } from "./types";
  * @returns The analysis result
  */
 export async function artinama(t: string): Promise<PrimbonResponse> {
-  return await f<PrimbonResponse>(`/get/artinama?t=${encodeURIComponent(t)}`);
+  const data = await f<PrimbonResponse>(`/get/artinama?t=${encodeURIComponent(t)}`);
+  return data as PrimbonResponse;
 }
 
 /**
@@ -16,5 +17,6 @@ export async function artinama(t: string): Promise<PrimbonResponse> {
  * @returns The analysis result
  */
 export async function nomorhoki(n: number): Promise<PrimbonResponse> {
-  return await f<PrimbonResponse>(`/get/nomorhoki?n=${encodeURIComponent(n)}`);
+  const data = await f<PrimbonResponse>(`/get/nomorhoki?n=${encodeURIComponent(n)}`);
+  return data as PrimbonResponse;
 }
