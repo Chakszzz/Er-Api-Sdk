@@ -55,14 +55,25 @@ jobs:
         id: package_version
         run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
 
-      - name: Publish to NPM
+      - name: Setup .npmrc for NPM and GitHub Registry
         run: |
-          pnpm publish --access public --no-git-checks
-      
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM }}" > ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+
+      - name: Publish to NPM and GitHub Registry
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM }}" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+
+          pnpm publish --access public --no-git-checks --registry=https://registry.npmjs.org
+          
           CURRENT_VERSION=$(jq -r .version package.json)
           PACKAGE_NAME=$(jq -r .name package.json)
           
           npm deprecate "${PACKAGE_NAME}@<${CURRENT_VERSION}" "This version is deprecated. Please upgrade to ${CURRENT_VERSION}."
+
+          pnpm publish --registry=https://npm.pkg.github.com
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
