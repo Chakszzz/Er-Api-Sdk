@@ -1,6 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "./config";
-import { ModelParams } from "./types";
+import { ModelParams, ModelResponse, ModelInfo, ModelsResponse, StreamChunk } from "./types";
 import { MissingApiKeyError } from "./errors";
 
 /**
@@ -49,7 +49,7 @@ export class OpenErApi {
    * Get a list of all available AI models
    * @returns Promise resolving to the model list response
    */
-  async getModels(): Promise<any> {
+  async getModels(): Promise<ModelsResponse> {
     try {
       const url = `${baseUrl}/ai/models`;
       const params: Record<string, string> = {};
@@ -70,7 +70,7 @@ export class OpenErApi {
    * @param modelId - The model ID to check
    * @returns Promise resolving to the model information if available
    */
-  async checkModel(modelId: string): Promise<any> {
+  async checkModel(modelId: string): Promise<ModelInfo> {
     try {
       const url = `${baseUrl}/ai/models/${modelId}`;
       const params: Record<string, string> = {};
@@ -97,7 +97,7 @@ export class OpenErApi {
     modelId: string,
     prompt: string,
     params?: ModelParams,
-  ): Promise<any> {
+  ): Promise<ModelResponse> {
     if (!prompt?.trim()) {
       throw new Error("Prompt cannot be empty");
     }
@@ -161,7 +161,7 @@ export class OpenErApi {
     modelId: string,
     prompt: string,
     params?: ModelParams,
-  ): Promise<any> {
+  ): Promise<ModelResponse> {
     if (!prompt?.trim()) {
       throw new Error("Prompt cannot be empty");
     }
@@ -210,9 +210,9 @@ export class OpenErApi {
   async streamGenerate(
     modelId: string,
     prompt: string,
-    onData: (data: any) => void,
-    onError: (error: any) => void,
-    onComplete: (data: any) => void,
+    onData: (data: StreamChunk) => void,
+    onError: (error: Error | unknown) => void,
+    onComplete: (data: StreamChunk) => void,
     params?: ModelParams,
   ): Promise<void> {
     if (!prompt?.trim()) {
@@ -253,14 +253,13 @@ export class OpenErApi {
 
       // Use event source for streaming
       const eventSource = new EventSource(url);
-      let fullResponse = "";
 
       eventSource.onmessage = (event) => {
         try {
-          const parsedData = JSON.parse(event.data);
+          const parsedData = JSON.parse(event.data) as StreamChunk;
 
           if (parsedData.error) {
-            onError(parsedData.error);
+            onError(new Error(parsedData.error));
             eventSource.close();
             return;
           }
@@ -272,7 +271,6 @@ export class OpenErApi {
           }
 
           if (parsedData.content) {
-            fullResponse += parsedData.content;
             onData(parsedData);
           }
         } catch (error) {
@@ -294,12 +292,12 @@ export class OpenErApi {
    * @private
    * @param error - Error from axios or other source
    */
-  private handleApiError(error: any): never {
+  private handleApiError(error: unknown): never {
     if (axios.isAxiosError(error) && error.response) {
       const errorMessage = error.response.data?.why || error.message;
       throw new Error(errorMessage);
     }
-    throw error;
+    throw error as Error;
   }
 }
 
@@ -320,11 +318,11 @@ export const MODEL_ALIASES = {
 
 export const openRouter = new OpenErApi();
 
-export async function getModels(): Promise<any> {
+export async function getModels(): Promise<ModelsResponse> {
   return openRouter.getModels();
 }
 
-export async function checkModel(modelId: string): Promise<any> {
+export async function checkModel(modelId: string): Promise<ModelInfo> {
   return openRouter.checkModel(modelId);
 }
 
@@ -332,7 +330,7 @@ export async function chat(
   modelId: string,
   prompt: string,
   params?: ModelParams,
-): Promise<any> {
+): Promise<ModelResponse> {
   return openRouter.chat(modelId, prompt, params);
 }
 
@@ -340,7 +338,7 @@ export async function reasoning(
   modelId: string,
   prompt: string,
   params?: ModelParams,
-): Promise<any> {
+): Promise<ModelResponse> {
   return openRouter.reasoning(modelId, prompt, params);
 }
 
@@ -355,7 +353,7 @@ export async function modelAlias(
   alias: string,
   prompt: string,
   params?: ModelParams,
-): Promise<any> {
+): Promise<ModelResponse> {
   const modelId = (MODEL_ALIASES as Record<string, string>)[alias.toLowerCase()] || alias;
   return openRouter.chat(modelId, prompt, params);
 }
