@@ -17,6 +17,23 @@ export interface ApiResponse < T = unknown > {
   request ? : unknown;
 }
 
+export interface ErApiResponse {
+  status: number;
+  from: string;
+  hasil ? : string;
+  data ? : string[];
+}
+
+export interface RawToolResponse {
+  status: number;
+  from: string;
+  hasil: {
+    original: string;
+    raw: string;
+    status: string;
+  };
+}
+
 export interface TikTokResponse {
   status: number;
   hasil: {
@@ -135,6 +152,33 @@ interface AppItem {
 }
 
 type SearchItem = AppItem | WallpaperItem;
+
+export interface CodeResponse {
+  status: number;
+  run: string[];
+  output: string;
+  from: string;
+}
+
+export interface LuminaiResponse {
+  status: number;
+  creator: string;
+  data: {
+    result: string;
+  }
+}
+
+export interface ErAiResponse {
+  status: number;
+  from: string;
+  message: string;
+}
+
+export interface AIResponse {
+  status: number;
+  hasil: string;
+  from: string;
+}
 
 export interface ModelInfo {
   id: string;

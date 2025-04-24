@@ -1,4 +1,8 @@
 import * as openRouter from "./er-api";
+import * as ainokey from "./ai";
+import * as codeRunner from "./code-runner";
+import * as search from "./search";
+import * as tool from "./raw-tool";
 import * as img from "./img";
 import * as games from "./games";
 import * as dl from "./dl";
@@ -9,15 +13,31 @@ import { ModelParams } from "./types";
 
 export const ErApiSdk = {
   openRouter,
+  ainokey,
+  codeRunner,
+  search,
   img,
   games,
   dl,
+  tool,
   primbon,
   custom,
   setBaseUrl,
   getBaseUrl,
   registerCustomEndpoint,
   getCustomEndpoints,
+  execute: codeRunner.Runcode,
+  run: codeRunner.Runcode,
+  luminai: ainokey.LuminAi,
+  googleImage: search.GoogleImage,
+  apkmod: search.HappyMods,
+  wiki: search.MediaWiki,
+  convertRaw: tool.Raw,
+  githubToRaw: tool.Raw,
+  wallpaper: search.Wallpaper,
+  muslimai: ainokey.MuslimAi,
+  erai: ainokey.ErAi,
+  meta: ainokey.MetaAi,
   getModels: openRouter.getModels,
   checkModel: openRouter.checkModel,
   artinama: primbon.artinama,
@@ -83,5 +103,5 @@ export const ErApiSdk = {
 
 export default ErApiSdk;
 
-export { openRouter, img, games, dl, primbon };
+export { openRouter, img, games, dl, primbon, codeRunner, search, ainokey, tool };
 export { custom } from "./custom";
