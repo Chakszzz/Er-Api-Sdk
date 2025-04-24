@@ -23,7 +23,7 @@ export {
 
 export { brat, generate as imgGenerate, text2img } from './img';
 
-export { runCode } from "./code-runner";
+export { Runcode } from "./code-runner";
 
 export { GoogleImage, MediaWiki, Wallpaper, HappyMods } from "./search";
 
