@@ -31,7 +31,9 @@
     "sdk",
     "ai",
     "typescript",
-    "api-client"
+    "api-client",
+    "ai-sdk",
+    "ytmp3"
   ],
   "author": "ErNewDev0",
   "license": "Unlicense",
