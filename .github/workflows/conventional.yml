@@ -36,6 +36,6 @@ jobs:
           OCO_OPENAI_BASE_PATH: ''
           OCO_DESCRIPTION: false
           OCO_EMOJI: false
-          OCO_MODEL: gemini-1.5-flash
+          OCO_MODEL: gpt-4o-mini
           OCO_LANGUAGE: en
           OCO_PROMPT_MODULE: conventional-commit
