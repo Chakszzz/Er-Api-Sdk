@@ -100,14 +100,41 @@ export interface StreamChunk {
 
 export interface DownloadResponse {
   status: number;
-  success: boolean;
-  videoUrl ? : string;
-  audioUrl ? : string;
-  title ? : string;
-  artist ? : string;
-  duration ? : string;
-  [key: string]: unknown;
+  hasil: DownloadItem[];
+  from: string;
 }
+
+interface DownloadItem {
+  judul: string;
+  thumbnail ? : string;
+  link_download ? : string;
+  kualitas ? : string;
+}
+
+export interface SearchResponse {
+  status: number;
+  hasil: (string | SearchItem | WallpaperItem | AppItem)[];
+  from: string;
+}
+
+interface WallpaperItem {
+  title: string;
+  type: string;
+  source: string;
+  image: string | string[];
+}
+
+interface AppItem {
+  judul ? : string;
+  title ? : string;
+  icon ? : string;
+  link ? : string;
+  rating ? : string;
+  sumber ? : string;
+  image ? : string | string[];
+}
+
+type SearchItem = AppItem | WallpaperItem;
 
 export interface ModelInfo {
   id: string;

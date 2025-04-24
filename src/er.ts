@@ -35,6 +35,8 @@ export const ErApiSdk = {
   brat: img.brat,
   text2img: img.text2img,
   ermp3: dl.ermp3,
+  ytmp3: dl.ermp3,
+  ytmp4: dl.ermp4,
   ermp4: dl.ermp4,
   ttdl: dl.ttdl,
   xnxx: dl.xnxx,
