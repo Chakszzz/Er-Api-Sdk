@@ -23,6 +23,14 @@ export {
 
 export { brat, generate as imgGenerate, text2img } from './img';
 
+export { runCode } from "./code-runner";
+
+export { GoogleImage, MediaWiki, Wallpaper, HappyMods } from "./search";
+
+export { Raw } from "./raw-tool";
+
+export { LuminAi, MetaAi, ErAi, MuslimAi } from "./ai"
+
 export { ermp3, ermp4, ttdl, xnxx, spotify } from './dl';
 
 import ErApiSdk from './er';
