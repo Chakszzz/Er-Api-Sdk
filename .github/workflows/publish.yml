@@ -8,7 +8,7 @@ on:
 
 jobs:
   publish-npm:
-    name: Publish on NPM and GitHub
+    name: Publish on NPM
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -34,15 +34,15 @@ jobs:
           if [ ! -f pnpm-lock.yaml ]; then
             echo "::warning::Lockfile tidak ada. Membuat yang baru..."
             pnpm install --lockfile-only
-
+      
             git config --global user.email "hub@erdev.biz.id"
             git config --global user.name "ErBots"
-
+      
             git add pnpm-lock.yaml
             git commit -m "chore: add lockfile [skip ci]"
             git push
           fi
-
+      
           pnpm install --frozen-lockfile
 
       - name: Validate package.json
@@ -57,11 +57,11 @@ jobs:
 
       - name: Publish to NPM
         run: |
-          pnpm publish --access public --no-git-checks --registry=https://registry.npmjs.org
-
+          pnpm publish --access public --no-git-checks
+      
           CURRENT_VERSION=$(jq -r .version package.json)
           PACKAGE_NAME=$(jq -r .name package.json)
-
+          
           npm deprecate "${PACKAGE_NAME}@<${CURRENT_VERSION}" "This version is deprecated. Please upgrade to ${CURRENT_VERSION}."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM }}

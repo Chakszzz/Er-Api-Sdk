@@ -1,6 +1,6 @@
 {
   "name": "er-api-sdk",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A Lightweight Typescript/Javascript SDK for AI, media, games, and utilities",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
