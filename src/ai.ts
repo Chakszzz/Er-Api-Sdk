@@ -37,6 +37,6 @@ export async function ErAi(text: string): Promise<ErAiResponse> {
  * @returns The result
  */
 export async function LuminAi(text: string): Promise<LuminaiResponse> {
-  const data = await f<LuminaiResponse>(`/luminai?t=${encodeURIComponent(text)}`);
+  const data = await f<LuminaiResponse>(`/luminai?text=${encodeURIComponent(text)}`);
   return data as LuminaiResponse;
 }
