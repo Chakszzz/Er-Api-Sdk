@@ -43,6 +43,7 @@ export const ErApiSdk = {
   artinama: primbon.artinama,
   nomorhoki: primbon.nomorhoki,
   chat: openRouter.chat,
+  khodam: primbon.Khodam,
   reasoning: openRouter.reasoning,
   claude1: openRouter.claude1,
   deepseek: openRouter.deepseek,

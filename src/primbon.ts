@@ -26,7 +26,7 @@ export async function nomorhoki(n: number): Promise<PrimbonResponse> {
  * @param name - The given name
  * @returns The descriptive result
  */
-export async function Khodam(name: number): Promise<ErApiResponse> {
+export async function Khodam(name: string): Promise<ErApiResponse> {
   const data = await f<ErApiResponse>(`/get/nomorhoki?t=${encodeURIComponent(name)}`);
   return data as ErApiResponse;
 }
