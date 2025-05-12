@@ -1,6 +1,6 @@
 import { f } from './get';
 import { TikTokResponse, SpotifyResponse, XnxxResponse,
-  DownloadResponse } from './types';
+  DownloadResponse, MediaFireResponse } from './types';
 
 /**
  * Download audio in MP3 format using ER-MP3 endpoint.
@@ -49,9 +49,21 @@ export async function ermp4(u: string): Promise < DownloadResponse > {
  * ```
  */
 export async function ttdl(u: string): Promise < TikTokResponse > {
-  const data = await f(`/dl/ttdl?u=${encodeURIComponent(u)}`);
+  const data = await f(`/dl/tt?u=${encodeURIComponent(u)}`);
   return data as TikTokResponse;
 }
+
+/**
+ * Download file from MediaFire using MediaFire Downloader endpoint.
+ * 
+ * @param url - The MediaFire file URL
+ * @returns Promise containing MediaFireResponse with file details
+ */
+export async function mediafire(url: string): Promise < MediaFireResponse > {
+  const data = await f(`/dl/mediafire?u=${encodeURIComponent(url)}`);
+  return data as MediaFireResponse;
+}
+
 
 /**
  * Get content 18+ from xnxx service

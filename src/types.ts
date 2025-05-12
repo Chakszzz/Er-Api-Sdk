@@ -34,6 +34,18 @@ export interface RawToolResponse {
   };
 }
 
+export interface MediaFireResponse {
+  status: number;
+  hasil: MediaFireFile[];
+  from: string;
+}
+
+interface MediaFireFile {
+  judul: string;
+  size: string;
+  url: string;
+}
+
 export interface TikTokResponse {
   status: number;
   hasil: {
