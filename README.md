@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/er-api-sdk.svg)](https://www.npmjs.com/package/er-api-sdk)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9%2B-blue)](https://www.typescriptlang.org/)
-[![Documentation](https://img.shields.io/badge/docs-TypeDoc-brightgreen)](https://ErBots.github.io/Er-Api-Sdk/)
+[![Documentation](https://img.shields.io/badge/docs-TypeDoc-brightgreen)](https://Er-Api-Sdk.js.org/)
 
 A lightweight TypeScript/JavaScript SDK for accessing AI models, media downloads, image generation, games, and utilities through the [ER-API](https://er-api.biz.id) platform.
 
@@ -151,4 +151,4 @@ To use AI models with custom parameters, you need an API key from [ER-API Platfo
 
 ## Documentation
 
-For detailed API documentation, visit our [Documentation](https://erbots.github.io/Er-Api-Sdk/).
+For detailed API documentation, visit our [Documentation](https://Er-Api-Sdk.js.org/).
